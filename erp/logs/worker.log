@@ -7,3 +7,8 @@
 2025-05-01 02:29:22,732 Cleaning registries for queue: mnt-d-itu-L3-S6-Eval2-erp:short
 2025-05-01 02:29:22,736 Cleaning registries for queue: mnt-d-itu-L3-S6-Eval2-erp:default
 2025-05-01 02:29:22,743 Cleaning registries for queue: mnt-d-itu-L3-S6-Eval2-erp:long
+2025-05-01 02:42:52,865 Cleaning registries for queue: mnt-d-itu-L3-S6-Eval2-erp:short
+2025-05-01 02:42:52,873 Cleaning registries for queue: mnt-d-itu-L3-S6-Eval2-erp:default
+2025-05-01 02:42:52,883 Cleaning registries for queue: mnt-d-itu-L3-S6-Eval2-erp:long
+2025-05-01 02:52:06,433 Worker f30b61f438154740a0038f8e3ed4d6cd [PID 969]: warm shut down requested
+2025-05-01 02:52:06,466 Unsubscribing from channel rq:pubsub:f30b61f438154740a0038f8e3ed4d6cd
