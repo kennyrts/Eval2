@@ -1,0 +1,9 @@
+2025-05-01 02:15:52,468 Worker rq:worker:f30b61f438154740a0038f8e3ed4d6cd started with PID 969, version 2.3.2
+2025-05-01 02:15:52,469 Subscribing to channel rq:pubsub:f30b61f438154740a0038f8e3ed4d6cd
+2025-05-01 02:15:52,513 *** Listening on mnt-d-itu-L3-S6-Eval2-erp:short, mnt-d-itu-L3-S6-Eval2-erp:default, mnt-d-itu-L3-S6-Eval2-erp:long...
+2025-05-01 02:15:52,516 Cleaning registries for queue: mnt-d-itu-L3-S6-Eval2-erp:short
+2025-05-01 02:15:52,544 Cleaning registries for queue: mnt-d-itu-L3-S6-Eval2-erp:default
+2025-05-01 02:15:52,558 Cleaning registries for queue: mnt-d-itu-L3-S6-Eval2-erp:long
+2025-05-01 02:29:22,732 Cleaning registries for queue: mnt-d-itu-L3-S6-Eval2-erp:short
+2025-05-01 02:29:22,736 Cleaning registries for queue: mnt-d-itu-L3-S6-Eval2-erp:default
+2025-05-01 02:29:22,743 Cleaning registries for queue: mnt-d-itu-L3-S6-Eval2-erp:long

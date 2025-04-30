@@ -14,3 +14,10 @@
 2025-04-30 19:56:02,902 LOG setting up backups
 2025-04-30 19:56:02,932 LOG backups were set up
 2025-04-30 19:56:02,933 INFO Bench erp initialized
+2025-05-01 02:15:41,301 INFO /home/dell/.venv/bin/bench start
+2025-05-01 02:15:41,968 INFO /home/dell/.venv/bin/bench serve --port 8000
+2025-05-01 02:15:41,980 INFO /home/dell/.venv/bin/bench schedule
+2025-05-01 02:15:42,034 INFO /home/dell/.venv/bin/bench worker
+2025-05-01 02:15:42,112 INFO /home/dell/.venv/bin/bench watch
+2025-05-01 02:33:12,484 INFO /home/dell/.venv/bin/bench new-site erpnext.localhost
+2025-05-01 02:33:36,605 INFO /home/dell/.venv/bin/bench new-site erpnext.localhost
