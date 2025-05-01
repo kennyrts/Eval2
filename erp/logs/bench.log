@@ -48,3 +48,4 @@
 2025-05-01 08:32:22,463 INFO /home/dell/.venv/bin/bench schedule
 2025-05-01 08:32:22,466 INFO /home/dell/.venv/bin/bench watch
 2025-05-01 08:32:22,590 INFO /home/dell/.venv/bin/bench worker
+2025-05-01 12:00:03,740 INFO /home/dell/.venv/bin/bench --verbose --site all backup

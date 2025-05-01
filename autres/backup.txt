@@ -1,0 +1,13 @@
+# 1. Arrêter le serveur
+bench stop
+
+# 2. Faire une sauvegarde de sécurité de l'état actuel
+bench backup
+
+# 3. Restaurer la base de données
+bench --site erpnext.localhost restore backup_erp.sql
+
+# 4. Redémarrer le serveur
+bench start
+
+mysql -u _8dc9ff63f31d5916 -p _8dc9ff63f31d5916 < backup_erp.sql
