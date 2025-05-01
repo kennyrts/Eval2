@@ -1,1 +1,46 @@
 2025-05-01 02:52:06,564 Could not connect to Redis instance: Connection closed by server. Retrying in 2 seconds...
+/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/rq/worker.py:1305: DeprecationWarning: This process (pid=1592) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  child_pid = os.fork()
+/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/passlib/utils/__init__.py:854: DeprecationWarning: 'crypt' is deprecated and slated for removal in Python 3.13
+  from crypt import crypt as _crypt
+/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/rq/worker.py:1305: DeprecationWarning: This process (pid=1592) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  child_pid = os.fork()
+/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/passlib/utils/__init__.py:854: DeprecationWarning: 'crypt' is deprecated and slated for removal in Python 3.13
+  from crypt import crypt as _crypt
+/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/rq/worker.py:1305: DeprecationWarning: This process (pid=1592) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  child_pid = os.fork()
+/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/passlib/utils/__init__.py:854: DeprecationWarning: 'crypt' is deprecated and slated for removal in Python 3.13
+  from crypt import crypt as _crypt
+/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/rq/worker.py:1305: DeprecationWarning: This process (pid=1592) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  child_pid = os.fork()
+/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/passlib/utils/__init__.py:854: DeprecationWarning: 'crypt' is deprecated and slated for removal in Python 3.13
+  from crypt import crypt as _crypt
+/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/rq/worker.py:1305: DeprecationWarning: This process (pid=1592) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  child_pid = os.fork()
+/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/passlib/utils/__init__.py:854: DeprecationWarning: 'crypt' is deprecated and slated for removal in Python 3.13
+  from crypt import crypt as _crypt
+/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/rq/worker.py:1305: DeprecationWarning: This process (pid=1592) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  child_pid = os.fork()
+/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/passlib/utils/__init__.py:854: DeprecationWarning: 'crypt' is deprecated and slated for removal in Python 3.13
+  from crypt import crypt as _crypt
+/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/rq/worker.py:1305: DeprecationWarning: This process (pid=1592) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  child_pid = os.fork()
+/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/passlib/utils/__init__.py:854: DeprecationWarning: 'crypt' is deprecated and slated for removal in Python 3.13
+  from crypt import crypt as _crypt
+/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/rq/worker.py:1305: DeprecationWarning: This process (pid=1592) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  child_pid = os.fork()
+/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/passlib/utils/__init__.py:854: DeprecationWarning: 'crypt' is deprecated and slated for removal in Python 3.13
+  from crypt import crypt as _crypt
+/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/rq/worker.py:1305: DeprecationWarning: This process (pid=1592) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  child_pid = os.fork()
+/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/passlib/utils/__init__.py:854: DeprecationWarning: 'crypt' is deprecated and slated for removal in Python 3.13
+  from crypt import crypt as _crypt
+/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/rq/worker.py:1305: DeprecationWarning: This process (pid=1592) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  child_pid = os.fork()
+/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/passlib/utils/__init__.py:854: DeprecationWarning: 'crypt' is deprecated and slated for removal in Python 3.13
+  from crypt import crypt as _crypt
+/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/rq/worker.py:1305: DeprecationWarning: This process (pid=1592) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  child_pid = os.fork()
+/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/passlib/utils/__init__.py:854: DeprecationWarning: 'crypt' is deprecated and slated for removal in Python 3.13
+  from crypt import crypt as _crypt
+2025-05-01 03:10:07,109 Could not connect to Redis instance: Connection closed by server. Retrying in 2 seconds...

@@ -12,3 +12,110 @@
 2025-05-01 02:42:52,883 Cleaning registries for queue: mnt-d-itu-L3-S6-Eval2-erp:long
 2025-05-01 02:52:06,433 Worker f30b61f438154740a0038f8e3ed4d6cd [PID 969]: warm shut down requested
 2025-05-01 02:52:06,466 Unsubscribing from channel rq:pubsub:f30b61f438154740a0038f8e3ed4d6cd
+2025-05-01 03:01:14,851 Worker rq:worker:9ae7cc3a2cb041afa0d21ebff1d212e4 started with PID 1592, version 2.3.2
+2025-05-01 03:01:14,853 Subscribing to channel rq:pubsub:9ae7cc3a2cb041afa0d21ebff1d212e4
+2025-05-01 03:01:14,869 *** Listening on mnt-d-itu-L3-S6-Eval2-erp:short, mnt-d-itu-L3-S6-Eval2-erp:default, mnt-d-itu-L3-S6-Eval2-erp:long...
+2025-05-01 03:01:14,873 Cleaning registries for queue: mnt-d-itu-L3-S6-Eval2-erp:short
+2025-05-01 03:01:14,886 Cleaning registries for queue: mnt-d-itu-L3-S6-Eval2-erp:default
+2025-05-01 03:01:14,898 Cleaning registries for queue: mnt-d-itu-L3-S6-Eval2-erp:long
+2025-05-01 03:08:12,351 mnt-d-itu-L3-S6-Eval2-erp:default: frappe.utils.background_jobs.execute_job(event=None, is_async=True, job_name='frappe.model.delete_doc.delete_dynamic_links', kwargs={'doctype': 'Property Setter', 'name': 'Sales Order-tax_id-hidden'}, method='frappe.model.delete_doc.delete_dynamic_links', site='erpnext.localhost', user='Administrator') (erpnext.localhost||1f9874a2-72d0-4899-b779-ec1bda9b1e7c)
+2025-05-01 03:08:13,946 Successfully completed frappe.utils.background_jobs.execute_job(event=None, is_async=True, job_name='frappe.model.delete_doc.delete_dynamic_links', kwargs={'doctype': 'Property Setter', 'name': 'Sales Order-tax_id-hidden'}, method='frappe.model.delete_doc.delete_dynamic_links', site='erpnext.localhost', user='Administrator') job in 0:00:01.379888s on worker 9ae7cc3a2cb041afa0d21ebff1d212e4
+2025-05-01 03:08:13,948 mnt-d-itu-L3-S6-Eval2-erp:default: Job OK (erpnext.localhost||1f9874a2-72d0-4899-b779-ec1bda9b1e7c)
+2025-05-01 03:08:13,950 Result is kept for 600 seconds
+2025-05-01 03:08:13,970 mnt-d-itu-L3-S6-Eval2-erp:default: frappe.utils.background_jobs.execute_job(event=None, is_async=True, job_name='frappe.model.delete_doc.delete_dynamic_links', kwargs={'doctype': 'Property Setter', 'name': 'Sales Order-tax_id-print_hide'}, method='frappe.model.delete_doc.delete_dynamic_links', site='erpnext.localhost', user='Administrator') (erpnext.localhost||e0590535-e6a3-474e-b811-b5cf8a78e093)
+2025-05-01 03:08:15,864 Successfully completed frappe.utils.background_jobs.execute_job(event=None, is_async=True, job_name='frappe.model.delete_doc.delete_dynamic_links', kwargs={'doctype': 'Property Setter', 'name': 'Sales Order-tax_id-print_hide'}, method='frappe.model.delete_doc.delete_dynamic_links', site='erpnext.localhost', user='Administrator') job in 0:00:01.870623s on worker 9ae7cc3a2cb041afa0d21ebff1d212e4
+2025-05-01 03:08:15,871 mnt-d-itu-L3-S6-Eval2-erp:default: Job OK (erpnext.localhost||e0590535-e6a3-474e-b811-b5cf8a78e093)
+2025-05-01 03:08:15,873 Result is kept for 600 seconds
+2025-05-01 03:08:15,900 mnt-d-itu-L3-S6-Eval2-erp:default: frappe.utils.background_jobs.execute_job(event=None, is_async=True, job_name='frappe.model.delete_doc.delete_dynamic_links', kwargs={'doctype': 'Property Setter', 'name': 'Sales Invoice-tax_id-hidden'}, method='frappe.model.delete_doc.delete_dynamic_links', site='erpnext.localhost', user='Administrator') (erpnext.localhost||29b25b79-a032-4cf9-87da-819647d70c98)
+2025-05-01 03:08:16,971 Successfully completed frappe.utils.background_jobs.execute_job(event=None, is_async=True, job_name='frappe.model.delete_doc.delete_dynamic_links', kwargs={'doctype': 'Property Setter', 'name': 'Sales Invoice-tax_id-hidden'}, method='frappe.model.delete_doc.delete_dynamic_links', site='erpnext.localhost', user='Administrator') job in 0:00:01.042782s on worker 9ae7cc3a2cb041afa0d21ebff1d212e4
+2025-05-01 03:08:16,973 mnt-d-itu-L3-S6-Eval2-erp:default: Job OK (erpnext.localhost||29b25b79-a032-4cf9-87da-819647d70c98)
+2025-05-01 03:08:16,974 Result is kept for 600 seconds
+2025-05-01 03:08:16,989 mnt-d-itu-L3-S6-Eval2-erp:default: frappe.utils.background_jobs.execute_job(event=None, is_async=True, job_name='frappe.model.delete_doc.delete_dynamic_links', kwargs={'doctype': 'Property Setter', 'name': 'Sales Invoice-tax_id-print_hide'}, method='frappe.model.delete_doc.delete_dynamic_links', site='erpnext.localhost', user='Administrator') (erpnext.localhost||65ad4063-1a46-41ba-8db3-7ac3a836f612)
+2025-05-01 03:08:18,179 Successfully completed frappe.utils.background_jobs.execute_job(event=None, is_async=True, job_name='frappe.model.delete_doc.delete_dynamic_links', kwargs={'doctype': 'Property Setter', 'name': 'Sales Invoice-tax_id-print_hide'}, method='frappe.model.delete_doc.delete_dynamic_links', site='erpnext.localhost', user='Administrator') job in 0:00:01.168007s on worker 9ae7cc3a2cb041afa0d21ebff1d212e4
+2025-05-01 03:08:18,180 mnt-d-itu-L3-S6-Eval2-erp:default: Job OK (erpnext.localhost||65ad4063-1a46-41ba-8db3-7ac3a836f612)
+2025-05-01 03:08:18,182 Result is kept for 600 seconds
+2025-05-01 03:08:18,199 mnt-d-itu-L3-S6-Eval2-erp:default: frappe.utils.background_jobs.execute_job(event=None, is_async=True, job_name='frappe.model.delete_doc.delete_dynamic_links', kwargs={'doctype': 'Property Setter', 'name': 'Delivery Note-tax_id-hidden'}, method='frappe.model.delete_doc.delete_dynamic_links', site='erpnext.localhost', user='Administrator') (erpnext.localhost||f8255719-2bd6-40d3-9760-deb42d7dcc43)
+2025-05-01 03:08:19,469 Successfully completed frappe.utils.background_jobs.execute_job(event=None, is_async=True, job_name='frappe.model.delete_doc.delete_dynamic_links', kwargs={'doctype': 'Property Setter', 'name': 'Delivery Note-tax_id-hidden'}, method='frappe.model.delete_doc.delete_dynamic_links', site='erpnext.localhost', user='Administrator') job in 0:00:01.245896s on worker 9ae7cc3a2cb041afa0d21ebff1d212e4
+2025-05-01 03:08:19,482 mnt-d-itu-L3-S6-Eval2-erp:default: Job OK (erpnext.localhost||f8255719-2bd6-40d3-9760-deb42d7dcc43)
+2025-05-01 03:08:19,483 Result is kept for 600 seconds
+2025-05-01 03:08:19,501 mnt-d-itu-L3-S6-Eval2-erp:default: frappe.utils.background_jobs.execute_job(event=None, is_async=True, job_name='frappe.model.delete_doc.delete_dynamic_links', kwargs={'doctype': 'Property Setter', 'name': 'Delivery Note-tax_id-print_hide'}, method='frappe.model.delete_doc.delete_dynamic_links', site='erpnext.localhost', user='Administrator') (erpnext.localhost||82917de2-2aca-434b-9236-b834d3e71291)
+2025-05-01 03:08:21,442 Successfully completed frappe.utils.background_jobs.execute_job(event=None, is_async=True, job_name='frappe.model.delete_doc.delete_dynamic_links', kwargs={'doctype': 'Property Setter', 'name': 'Delivery Note-tax_id-print_hide'}, method='frappe.model.delete_doc.delete_dynamic_links', site='erpnext.localhost', user='Administrator') job in 0:00:01.894678s on worker 9ae7cc3a2cb041afa0d21ebff1d212e4
+2025-05-01 03:08:21,443 mnt-d-itu-L3-S6-Eval2-erp:default: Job OK (erpnext.localhost||82917de2-2aca-434b-9236-b834d3e71291)
+2025-05-01 03:08:21,444 Result is kept for 600 seconds
+2025-05-01 03:08:21,506 mnt-d-itu-L3-S6-Eval2-erp:default: frappe.utils.background_jobs.execute_job(event=None, is_async=True, job_name='frappe.model.delete_doc.delete_dynamic_links', kwargs={'doctype': 'Property Setter', 'name': 'Packed Item-rate-read_only'}, method='frappe.model.delete_doc.delete_dynamic_links', site='erpnext.localhost', user='Administrator') (erpnext.localhost||990f7266-436f-46fe-bf0a-35faf6a9b532)
+2025-05-01 03:08:22,601 Successfully completed frappe.utils.background_jobs.execute_job(event=None, is_async=True, job_name='frappe.model.delete_doc.delete_dynamic_links', kwargs={'doctype': 'Property Setter', 'name': 'Packed Item-rate-read_only'}, method='frappe.model.delete_doc.delete_dynamic_links', site='erpnext.localhost', user='Administrator') job in 0:00:01.061975s on worker 9ae7cc3a2cb041afa0d21ebff1d212e4
+2025-05-01 03:08:22,602 mnt-d-itu-L3-S6-Eval2-erp:default: Job OK (erpnext.localhost||990f7266-436f-46fe-bf0a-35faf6a9b532)
+2025-05-01 03:08:22,604 Result is kept for 600 seconds
+2025-05-01 03:08:22,628 mnt-d-itu-L3-S6-Eval2-erp:default: frappe.utils.background_jobs.execute_job(event=None, is_async=True, job_name='frappe.model.delete_doc.delete_dynamic_links', kwargs={'doctype': 'Property Setter', 'name': 'Sales Invoice Item-discount_account..., method='frappe.model.delete_doc.delete_dynamic_links', site='erpnext.localhost', user='Administrator') (erpnext.localhost||d89aea19-e882-4626-92c0-8c62be98f570)
+2025-05-01 03:08:23,592 Successfully completed frappe.utils.background_jobs.execute_job(event=None, is_async=True, job_name='frappe.model.delete_doc.delete_dynamic_links', kwargs={'doctype': 'Property Setter', 'name': 'Sales Invoice Item-discount_account..., method='frappe.model.delete_doc.delete_dynamic_links', site='erpnext.localhost', user='Administrator') job in 0:00:00.938632s on worker 9ae7cc3a2cb041afa0d21ebff1d212e4
+2025-05-01 03:08:23,593 mnt-d-itu-L3-S6-Eval2-erp:default: Job OK (erpnext.localhost||d89aea19-e882-4626-92c0-8c62be98f570)
+2025-05-01 03:08:23,594 Result is kept for 600 seconds
+2025-05-01 03:08:23,613 mnt-d-itu-L3-S6-Eval2-erp:default: frappe.utils.background_jobs.execute_job(event=None, is_async=True, job_name='frappe.model.delete_doc.delete_dynamic_links', kwargs={'doctype': 'Property Setter', 'name': 'Sales Invoice Item-discount_account..., method='frappe.model.delete_doc.delete_dynamic_links', site='erpnext.localhost', user='Administrator') (erpnext.localhost||57bff217-b580-4b6e-a688-af90de5052c4)
+2025-05-01 03:08:24,629 Successfully completed frappe.utils.background_jobs.execute_job(event=None, is_async=True, job_name='frappe.model.delete_doc.delete_dynamic_links', kwargs={'doctype': 'Property Setter', 'name': 'Sales Invoice Item-discount_account..., method='frappe.model.delete_doc.delete_dynamic_links', site='erpnext.localhost', user='Administrator') job in 0:00:00.975630s on worker 9ae7cc3a2cb041afa0d21ebff1d212e4
+2025-05-01 03:08:24,631 mnt-d-itu-L3-S6-Eval2-erp:default: Job OK (erpnext.localhost||57bff217-b580-4b6e-a688-af90de5052c4)
+2025-05-01 03:08:24,632 Result is kept for 600 seconds
+2025-05-01 03:08:24,645 mnt-d-itu-L3-S6-Eval2-erp:default: frappe.utils.background_jobs.execute_job(event=None, is_async=True, job_name='frappe.model.delete_doc.delete_dynamic_links', kwargs={'doctype': 'Property Setter', 'name': 'Sales Invoice-additional_discount_a..., method='frappe.model.delete_doc.delete_dynamic_links', site='erpnext.localhost', user='Administrator') (erpnext.localhost||e8bd8aa0-4bc5-4eb8-8d93-27ff5f34db0f)
+2025-05-01 03:08:25,581 Successfully completed frappe.utils.background_jobs.execute_job(event=None, is_async=True, job_name='frappe.model.delete_doc.delete_dynamic_links', kwargs={'doctype': 'Property Setter', 'name': 'Sales Invoice-additional_discount_a..., method='frappe.model.delete_doc.delete_dynamic_links', site='erpnext.localhost', user='Administrator') job in 0:00:00.916907s on worker 9ae7cc3a2cb041afa0d21ebff1d212e4
+2025-05-01 03:08:25,582 mnt-d-itu-L3-S6-Eval2-erp:default: Job OK (erpnext.localhost||e8bd8aa0-4bc5-4eb8-8d93-27ff5f34db0f)
+2025-05-01 03:08:25,583 Result is kept for 600 seconds
+2025-05-01 03:08:25,599 mnt-d-itu-L3-S6-Eval2-erp:default: frappe.utils.background_jobs.execute_job(event=None, is_async=True, job_name='frappe.model.delete_doc.delete_dynamic_links', kwargs={'doctype': 'Property Setter', 'name': 'Sales Invoice-additional_discount_a..., method='frappe.model.delete_doc.delete_dynamic_links', site='erpnext.localhost', user='Administrator') (erpnext.localhost||3e010672-551e-452b-88c7-4c778c8a901c)
+2025-05-01 03:08:26,538 Successfully completed frappe.utils.background_jobs.execute_job(event=None, is_async=True, job_name='frappe.model.delete_doc.delete_dynamic_links', kwargs={'doctype': 'Property Setter', 'name': 'Sales Invoice-additional_discount_a..., method='frappe.model.delete_doc.delete_dynamic_links', site='erpnext.localhost', user='Administrator') job in 0:00:00.916017s on worker 9ae7cc3a2cb041afa0d21ebff1d212e4
+2025-05-01 03:08:26,540 mnt-d-itu-L3-S6-Eval2-erp:default: Job OK (erpnext.localhost||3e010672-551e-452b-88c7-4c778c8a901c)
+2025-05-01 03:08:26,541 Result is kept for 600 seconds
+2025-05-01 03:10:06,979 Worker 9ae7cc3a2cb041afa0d21ebff1d212e4 [PID 1592]: warm shut down requested
+Traceback (most recent call last):
+  File "/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/redis/connection.py", line 592, in read_response
+    response = self._parser.read_response(disable_decoding=disable_decoding)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/redis/_parsers/hiredis.py", line 128, in read_response
+    self.read_from_socket()
+  File "/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/redis/_parsers/hiredis.py", line 88, in read_from_socket
+    bufflen = self._sock.recv_into(self._buffer)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [Errno 104] Connection reset by peer
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/mnt/d/itu/L3/S6/Eval2/erp/apps/frappe/frappe/utils/bench_helper.py", line 48, in invoke
+    return super().invoke(ctx)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/click/core.py", line 1697, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/click/core.py", line 1443, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/click/core.py", line 788, in invoke
+    return __callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/d/itu/L3/S6/Eval2/erp/apps/frappe/frappe/commands/scheduler.py", line 206, in start_worker
+    start_worker(
+  File "/mnt/d/itu/L3/S6/Eval2/erp/apps/frappe/frappe/utils/background_jobs.py", line 350, in start_worker
+    worker.work(
+  File "/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/rq/worker.py", line 649, in work
+    self.teardown()
+  File "/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/rq/worker.py", line 1150, in teardown
+    self.register_death()
+  File "/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/rq/worker.py", line 897, in register_death
+    p.execute()
+  File "/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/redis/client.py", line 1524, in execute
+    conn = self.connection_pool.get_connection("MULTI", self.shard_hint)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/redis/connection.py", line 1422, in get_connection
+    connection.connect()
+  File "/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/redis/connection.py", line 369, in connect
+    self.on_connect()
+  File "/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/redis/connection.py", line 471, in on_connect
+    self.read_response()
+  File "/mnt/d/ITU/L3/S6/Eval2/erp/env/lib/python3.12/site-packages/redis/connection.py", line 600, in read_response
+    raise ConnectionError(
+redis.exceptions.ConnectionError: Error while reading from 127.0.0.1:11000 : (104, 'Connection reset by peer')
+
+Error while reading from 127.0.0.1:11000 : (104, 'Connection reset by peer')
+2025-05-01 03:11:51,840 Worker rq:worker:c586831b2f164a4faba24475e10196e4 started with PID 1933, version 2.3.2
+2025-05-01 03:11:51,841 Subscribing to channel rq:pubsub:c586831b2f164a4faba24475e10196e4
+2025-05-01 03:11:51,858 *** Listening on mnt-d-itu-L3-S6-Eval2-erp:short, mnt-d-itu-L3-S6-Eval2-erp:default, mnt-d-itu-L3-S6-Eval2-erp:long...
+2025-05-01 03:11:51,870 Cleaning registries for queue: mnt-d-itu-L3-S6-Eval2-erp:short
+2025-05-01 03:11:51,893 Cleaning registries for queue: mnt-d-itu-L3-S6-Eval2-erp:default
+2025-05-01 03:11:51,905 Cleaning registries for queue: mnt-d-itu-L3-S6-Eval2-erp:long

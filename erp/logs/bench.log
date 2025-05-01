@@ -32,3 +32,14 @@
 2025-05-01 02:52:14,999 DEBUG cd /mnt/d/ITU/L3/S6/Eval2/erp && sudo supervisorctl restart frappe:
 2025-05-01 02:52:15,313 WARNING cd /mnt/d/ITU/L3/S6/Eval2/erp && sudo supervisorctl restart frappe: executed with exit code 2
 2025-05-01 02:52:15,314 WARNING restarting supervisor group `frappe:` failed. Use `bench restart` to retry.
+2025-05-01 03:00:58,669 INFO /home/dell/.venv/bin/bench start
+2025-05-01 03:00:59,531 INFO /home/dell/.venv/bin/bench schedule
+2025-05-01 03:00:59,544 INFO /home/dell/.venv/bin/bench watch
+2025-05-01 03:00:59,687 INFO /home/dell/.venv/bin/bench serve --port 8000
+2025-05-01 03:00:59,766 INFO /home/dell/.venv/bin/bench worker
+2025-05-01 03:02:04,370 INFO /home/dell/.venv/bin/bench --site erpnext.localhost install-app erpnext
+2025-05-01 03:11:31,572 INFO /home/dell/.venv/bin/bench start
+2025-05-01 03:11:33,556 INFO /home/dell/.venv/bin/bench watch
+2025-05-01 03:11:33,584 INFO /home/dell/.venv/bin/bench schedule
+2025-05-01 03:11:33,797 INFO /home/dell/.venv/bin/bench serve --port 8000
+2025-05-01 03:11:33,880 INFO /home/dell/.venv/bin/bench worker
