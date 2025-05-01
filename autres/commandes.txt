@@ -1,3 +1,8 @@
 _8dc9ff63f31d5916
 
 mysqldump -u root -p _8dc9ff63f31d5916 > backup_erp.sql
+
+mvnw spring-boot:run
+
+mvnw clean package
+java -jar target/newapp-0.0.1-SNAPSHOT.jar
