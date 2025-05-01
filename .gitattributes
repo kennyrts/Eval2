@@ -1,2 +1,8 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+ # Force les fichiers spécifiques à utiliser LF
+*.css text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.map text eol=lf

@@ -3,3 +3,12 @@
 /erp/sites/assets/erpnext
 /erp/sites/assets/frappe
 /erp/logs
+/erp/config/pids
+**/node_modules
+**/dist
+*.bundle.*
+*.map
+*.pyc
+**/__pycache__
+*.css.map
+*.js.map
