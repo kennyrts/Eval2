@@ -19,14 +19,13 @@ public class ErpAuthService {
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
-    private String sessionId;
 
     public ErpAuthService() {
         this.restTemplate = new RestTemplate();
         this.objectMapper = new ObjectMapper();
     }
 
-    public boolean authenticate(String username, String password) {
+    public ResponseEntity<String> authenticate(String username, String password) {
         try {
             log.info("Tentative d'authentification pour l'utilisateur: {}", username);
             LoginRequest loginRequest = new LoginRequest(username, password);
@@ -45,29 +44,30 @@ public class ErpAuthService {
                 String message = jsonResponse.path("message").asText();
                 log.debug("Réponse complète: {}", response.getBody());
 
-                // Extraire le cookie de session
-                List<String> cookies = response.getHeaders().get(HttpHeaders.SET_COOKIE);
-                if (cookies != null) {
-                    for (String cookie : cookies) {
-                        if (cookie.startsWith("sid=")) {
-                            sessionId = cookie.split(";")[0].substring(4);
-                            log.debug("Session ID extrait: {}", sessionId);
-                            break;
-                        }
-                    }
+                if ("Logged In".equals(message)) {
+                    return response;
                 }
-
-                return "Logged In".equals(message);
             }
 
-            return false;
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         } catch (Exception e) {
             log.error("Erreur lors de l'authentification", e);
-            return false;
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
-    public String getSessionId() {
-        return sessionId;
+    public String extractSessionId(ResponseEntity<String> response) {
+        if (response == null) return null;
+        
+        List<String> cookies = response.getHeaders().get(HttpHeaders.SET_COOKIE);
+        if (cookies != null) {
+            for (String cookie : cookies) {
+                if (cookie.startsWith("sid=")) {
+                    // On retourne le cookie complet pour préserver les paramètres importants
+                    return cookie;
+                }
+            }
+        }
+        return null;
     }
 } 

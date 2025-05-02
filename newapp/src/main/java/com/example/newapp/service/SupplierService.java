@@ -19,12 +19,6 @@ public class SupplierService {
     @Value("${erpnext.api.url}")
     private String erpUrl;
 
-    @Value("${erpnext.api.username}")
-    private String username;
-
-    @Value("${erpnext.api.password}")
-    private String password;
-
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
     private final ErpAuthService erpAuthService;
@@ -35,22 +29,16 @@ public class SupplierService {
         this.erpAuthService = erpAuthService;
     }
 
-    public List<SupplierDTO> getAllSuppliers() {
+    public List<SupplierDTO> getAllSuppliers(String sessionCookie) {
         try {
-            // Authentification préalable
-            if (!erpAuthService.authenticate(username, password)) {
-                log.error("Échec de l'authentification à ERPNext");
+            if (sessionCookie == null) {
+                log.error("Cookie de session manquant");
                 return new ArrayList<>();
             }
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            
-            // Ajout du cookie de session
-            String sessionId = erpAuthService.getSessionId();
-            if (sessionId != null) {
-                headers.add("Cookie", "sid=" + sessionId);
-            }
+            headers.add("Cookie", sessionCookie);
 
             HttpEntity<?> entity = new HttpEntity<>(headers);
             String url = erpUrl + "/api/resource/Supplier?fields=[\"*\"]";
