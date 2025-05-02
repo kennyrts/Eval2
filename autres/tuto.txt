@@ -1,0 +1,2 @@
+http://erpnext.localhost:8000/api/resource/Supplier?fields=["*"]
+http://erpnext.localhost:8000/api/resource/Supplier?fields=["supplier_name", "supplier_type", "supplier_group", "country", "tax_id", "email_id", "phone"]
