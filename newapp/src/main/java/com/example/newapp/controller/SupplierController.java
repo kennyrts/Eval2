@@ -49,6 +49,20 @@ public class SupplierController {
         return "suppliers/quotations";
     }
 
+    @GetMapping("/suppliers/{supplierName}/orders")
+    public String listSupplierOrders(@PathVariable String supplierName, Model model, HttpSession session) {
+        log.debug("Récupération des commandes pour le fournisseur: {}", supplierName);
+        
+        String sessionCookie = (String) session.getAttribute("sid");
+        if (sessionCookie == null) {
+            return "redirect:/login";
+        }
+        
+        model.addAttribute("supplier", supplierName);
+        model.addAttribute("orders", supplierService.getSupplierPurchaseOrders(sessionCookie, supplierName));
+        return "suppliers/orders";
+    }
+
     @GetMapping("/suppliers/quotations/{quotationName}")
     public String showQuotationDetails(@PathVariable String quotationName, Model model, HttpSession session) {
         log.debug("Récupération des détails du devis: {}", quotationName);

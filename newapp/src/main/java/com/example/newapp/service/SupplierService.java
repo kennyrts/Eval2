@@ -3,6 +3,7 @@ package com.example.newapp.service;
 import com.example.newapp.dto.SupplierDTO;
 import com.example.newapp.dto.SupplierQuotationDTO;
 import com.example.newapp.dto.SupplierQuotationItemDTO;
+import com.example.newapp.dto.PurchaseOrderDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -269,6 +270,58 @@ public class SupplierService {
         } catch (Exception e) {
             log.error("Erreur lors de la mise à jour du prix unitaire", e);
             return false;
+        }
+    }
+
+    public List<PurchaseOrderDTO> getSupplierPurchaseOrders(String sessionCookie, String supplierName) {
+        try {
+            if (sessionCookie == null) {
+                log.error("Cookie de session manquant");
+                return new ArrayList<>();
+            }
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.add("Cookie", sessionCookie);
+
+            HttpEntity<?> entity = new HttpEntity<>(headers);
+            String url = erpUrl + "/api/resource/Purchase Order?fields=[\"*\"]&filters=[[\"supplier\",\"=\",\"" + supplierName + "\"]]";
+            log.debug("URL de récupération des commandes: {}", url);
+
+            ResponseEntity<String> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                entity,
+                String.class
+            );
+
+            if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+                JsonNode jsonResponse = objectMapper.readTree(response.getBody());
+                List<PurchaseOrderDTO> orders = new ArrayList<>();
+
+                if (jsonResponse.has("data")) {
+                    JsonNode data = jsonResponse.get("data");
+                    for (JsonNode orderNode : data) {
+                        PurchaseOrderDTO order = new PurchaseOrderDTO();
+                        order.setName(getStringValue(orderNode, "name"));
+                        order.setSupplier(getStringValue(orderNode, "supplier"));
+                        order.setSupplierName(getStringValue(orderNode, "supplier_name"));
+                        order.setTransactionDate(getStringValue(orderNode, "transaction_date"));
+                        order.setStatus(getStringValue(orderNode, "status"));
+                        order.setGrandTotal(getStringValue(orderNode, "grand_total"));
+                        order.setCompany(getStringValue(orderNode, "company"));
+                        order.setRequiredBy(getStringValue(orderNode, "schedule_date"));
+                        orders.add(order);
+                    }
+                }
+
+                return orders;
+            }
+
+            return new ArrayList<>();
+        } catch (Exception e) {
+            log.error("Erreur lors de la récupération des commandes", e);
+            return new ArrayList<>();
         }
     }
 } 
