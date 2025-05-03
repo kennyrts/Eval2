@@ -5,6 +5,8 @@ import com.example.newapp.dto.SupplierQuotationDTO;
 import com.example.newapp.dto.SupplierQuotationItemDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -209,5 +211,64 @@ public class SupplierService {
 
     private Double getDoubleValue(JsonNode node, String field) {
         return node.has(field) ? node.get(field).asDouble() : 0.0;
+    }
+
+    public boolean updateItemRate(String sessionCookie, String quotationName, String itemCode, Double newRate) {
+        try {
+            if (sessionCookie == null) {
+                log.error("Cookie de session manquant");
+                return false;
+            }
+
+            // D'abord, récupérer les détails actuels du devis pour avoir la quantité
+            SupplierQuotationDTO quotation = getQuotationDetails(sessionCookie, quotationName);
+            if (quotation == null || quotation.getItems() == null) {
+                log.error("Impossible de récupérer les détails du devis");
+                return false;
+            }
+
+            // Trouver l'item correspondant pour obtenir sa quantité
+            Double qty = quotation.getItems().stream()
+                .filter(item -> itemCode.equals(item.getItemCode()))
+                .findFirst()
+                .map(SupplierQuotationItemDTO::getQty)
+                .orElse(null);
+
+            if (qty == null) {
+                log.error("Item {} non trouvé dans le devis {}", itemCode, quotationName);
+                return false;
+            }
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.add("Cookie", sessionCookie);
+
+            // Construire le corps de la requête avec un objet JSON via ObjectMapper
+            ObjectNode requestBody = objectMapper.createObjectNode();
+            ArrayNode itemsArray = objectMapper.createArrayNode();
+            ObjectNode itemNode = objectMapper.createObjectNode();
+            itemNode.put("item_code", itemCode);
+            itemNode.put("rate", newRate);
+            itemNode.put("qty", qty);  // Inclure la quantité existante
+            itemsArray.add(itemNode);
+            requestBody.set("items", itemsArray);
+
+            HttpEntity<String> entity = new HttpEntity<>(objectMapper.writeValueAsString(requestBody), headers);
+            String url = erpUrl + "/api/resource/Supplier Quotation/" + quotationName;
+            log.debug("URL de mise à jour du devis: {}", url);
+            log.debug("Corps de la requête: {}", objectMapper.writeValueAsString(requestBody));
+
+            ResponseEntity<String> response = restTemplate.exchange(
+                url,
+                HttpMethod.PUT,
+                entity,
+                String.class
+            );
+
+            return response.getStatusCode() == HttpStatus.OK;
+        } catch (Exception e) {
+            log.error("Erreur lors de la mise à jour du prix unitaire", e);
+            return false;
+        }
     }
 } 

@@ -34,6 +34,16 @@
             <a th:href="@{/suppliers/{supplier}/quotations(supplier=${quotation.supplier})}" class="btn btn-secondary">Retour</a>
         </div>
 
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <span th:text="${success}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span th:text="${error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
         <div class="row mb-4">
             <div class="col-md-6">
                 <div class="card">
@@ -101,6 +111,7 @@
                                 <th>Prix Unitaire</th>
                                 <th>Montant</th>
                                 <th>Délai (jours)</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -110,7 +121,22 @@
                                 <td th:text="${item.description}">DESCRIPTION</td>
                                 <td th:text="${item.qty}">QTÉ</td>
                                 <td th:text="${item.uom}">UDM</td>
-                                <td th:text="${item.rate}">PRIX</td>
+                                <td>
+                                    <form th:action="@{/suppliers/quotations/{quotationName}/updateRate(quotationName=${quotation.name})}"
+                                          method="post"
+                                          class="d-flex align-items-center">
+                                        <input type="hidden" name="itemCode" th:value="${item.itemCode}">
+                                        <input type="number"
+                                               name="newRate"
+                                               th:value="${item.rate}"
+                                               class="form-control form-control-sm me-2"
+                                               step="0.01"
+                                               required>
+                                        <button type="submit" class="btn btn-sm btn-primary">
+                                            <i class="bi bi-check"></i>
+                                        </button>
+                                    </form>
+                                </td>
                                 <td th:text="${item.amount}">MONTANT</td>
                                 <td th:text="${item.leadTimeDays}">DÉLAI</td>
                             </tr>
@@ -129,5 +155,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 </body>
 </html> 
