@@ -4,6 +4,7 @@ import com.example.newapp.dto.SupplierDTO;
 import com.example.newapp.dto.SupplierQuotationDTO;
 import com.example.newapp.dto.SupplierQuotationItemDTO;
 import com.example.newapp.dto.PurchaseOrderDTO;
+import com.example.newapp.dto.PurchaseInvoiceDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
