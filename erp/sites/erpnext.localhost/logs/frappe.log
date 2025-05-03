@@ -1,0 +1,9 @@
+2025-05-02 08:48:15,907 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'fields': "['*']"}
+2025-05-02 08:49:21,835 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'fields': "['*']"}
+2025-05-02 19:08:39,714 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'fields': "['*']"}

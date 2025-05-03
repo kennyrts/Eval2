@@ -16,6 +16,11 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.http.ResponseEntity;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import java.util.Collections;
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -37,13 +42,24 @@ public class SecurityConfig {
                 String username = authentication.getName();
                 String password = authentication.getCredentials().toString();
 
-                if (erpAuthService.authenticate(username, password)) {
-                    UserDetails userDetails = User.withUsername(username)
-                            .password("") // Mot de passe vide car nous utilisons ERPNext pour l'authentification
-                            .roles("USER")
-                            .build();
-                    return new UsernamePasswordAuthenticationToken(
-                            userDetails, password, userDetails.getAuthorities());
+                ResponseEntity<String> response = erpAuthService.authenticate(username, password);
+                
+                if (response.getStatusCode().is2xxSuccessful()) {
+                    // Extraire et stocker le cookie de session
+                    String sessionCookie = erpAuthService.extractSessionId(response);
+                    if (sessionCookie != null) {
+                        // Obtenir la session courante
+                        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+                        HttpSession session = attr.getRequest().getSession(true);
+                        session.setAttribute("sid", sessionCookie);
+                        
+                        UserDetails userDetails = User.withUsername(username)
+                                .password("") // Mot de passe vide car nous utilisons ERPNext pour l'authentification
+                                .roles("USER")
+                                .build();
+                        return new UsernamePasswordAuthenticationToken(
+                                userDetails, password, userDetails.getAuthorities());
+                    }
                 }
 
                 return null;
