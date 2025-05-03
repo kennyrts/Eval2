@@ -2,6 +2,7 @@ package com.example.newapp.service;
 
 import com.example.newapp.dto.SupplierDTO;
 import com.example.newapp.dto.SupplierQuotationDTO;
+import com.example.newapp.dto.SupplierQuotationItemDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -131,7 +132,82 @@ public class SupplierService {
         }
     }
 
+    public SupplierQuotationDTO getQuotationDetails(String sessionCookie, String quotationName) {
+        try {
+            if (sessionCookie == null) {
+                log.error("Cookie de session manquant");
+                return null;
+            }
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.add("Cookie", sessionCookie);
+
+            HttpEntity<?> entity = new HttpEntity<>(headers);
+            
+            // URL directe vers le devis
+            String url = erpUrl + "/api/resource/Supplier Quotation/" + quotationName;
+            log.debug("URL de récupération du devis: {}", url);
+
+            ResponseEntity<String> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                entity,
+                String.class
+            );
+
+            if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+                JsonNode jsonResponse = objectMapper.readTree(response.getBody());
+                
+                if (jsonResponse.has("data")) {
+                    JsonNode quotationData = jsonResponse.get("data");
+                    SupplierQuotationDTO quotation = new SupplierQuotationDTO();
+                    quotation.setName(getStringValue(quotationData, "name"));
+                    quotation.setSupplier(getStringValue(quotationData, "supplier"));
+                    quotation.setSupplierName(getStringValue(quotationData, "supplier_name"));
+                    quotation.setTransactionDate(getStringValue(quotationData, "transaction_date"));
+                    quotation.setValidTill(getStringValue(quotationData, "valid_till"));
+                    quotation.setGrandTotal(getStringValue(quotationData, "grand_total"));
+                    quotation.setStatus(getStringValue(quotationData, "status"));
+                    quotation.setTerms(getStringValue(quotationData, "terms"));
+                    quotation.setTotalTaxesAndCharges(getStringValue(quotationData, "total_taxes_and_charges"));
+                    quotation.setNetTotal(getStringValue(quotationData, "net_total"));
+
+                    // Les items sont directement dans la réponse
+                    List<SupplierQuotationItemDTO> items = new ArrayList<>();
+                    if (quotationData.has("items")) {
+                        for (JsonNode itemNode : quotationData.get("items")) {
+                            SupplierQuotationItemDTO item = new SupplierQuotationItemDTO();
+                            item.setItemCode(getStringValue(itemNode, "item_code"));
+                            item.setItemName(getStringValue(itemNode, "item_name"));
+                            item.setDescription(getStringValue(itemNode, "description"));
+                            item.setQty(getDoubleValue(itemNode, "qty"));
+                            item.setUom(getStringValue(itemNode, "uom"));
+                            item.setRate(getDoubleValue(itemNode, "rate"));
+                            item.setAmount(getDoubleValue(itemNode, "amount"));
+                            item.setWarehouse(getStringValue(itemNode, "warehouse"));
+                            item.setLeadTimeDays(getDoubleValue(itemNode, "lead_time_days"));
+                            items.add(item);
+                        }
+                    }
+                    quotation.setItems(items);
+
+                    return quotation;
+                }
+            }
+
+            return null;
+        } catch (Exception e) {
+            log.error("Erreur lors de la récupération des détails du devis", e);
+            return null;
+        }
+    }
+
     private String getStringValue(JsonNode node, String field) {
         return node.has(field) ? node.get(field).asText() : "";
+    }
+
+    private Double getDoubleValue(JsonNode node, String field) {
+        return node.has(field) ? node.get(field).asDouble() : 0.0;
     }
 } 

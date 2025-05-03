@@ -45,6 +45,7 @@
                                 <th>Valide jusqu'au</th>
                                 <th>Montant Total</th>
                                 <th>Statut</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -57,9 +58,12 @@
                                     <span th:class="${quotation.status == 'Submitted' ? 'badge bg-success' : 'badge bg-secondary'}"
                                           th:text="${quotation.status}">STATUT</span>
                                 </td>
+                                <td>
+                                    <a th:href="@{/suppliers/quotations/{name}(name=${quotation.name})}" class="btn btn-sm btn-info">Détails</a>
+                                </td>
                             </tr>
                             <tr th:if="${quotations.empty}">
-                                <td colspan="5" class="text-center">Aucun devis trouvé</td>
+                                <td colspan="6" class="text-center">Aucun devis trouvé</td>
                             </tr>
                         </tbody>
                     </table>

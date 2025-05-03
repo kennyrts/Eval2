@@ -45,4 +45,17 @@ public class SupplierController {
         model.addAttribute("quotations", supplierService.getSupplierQuotations(sessionCookie, supplierName));
         return "suppliers/quotations";
     }
+
+    @GetMapping("/suppliers/quotations/{quotationName}")
+    public String showQuotationDetails(@PathVariable String quotationName, Model model, HttpSession session) {
+        log.debug("Récupération des détails du devis: {}", quotationName);
+        
+        String sessionCookie = (String) session.getAttribute("sid");
+        if (sessionCookie == null) {
+            return "redirect:/login";
+        }
+        
+        model.addAttribute("quotation", supplierService.getQuotationDetails(sessionCookie, quotationName));
+        return "suppliers/quotation-details";
+    }
 } 
