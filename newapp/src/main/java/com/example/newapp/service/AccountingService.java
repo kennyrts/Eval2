@@ -1,8 +1,10 @@
 package com.example.newapp.service;
 
 import com.example.newapp.dto.PurchaseInvoiceDTO;
+import com.example.newapp.dto.PaymentEntryDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,35 @@ public class AccountingService {
     public AccountingService() {
         this.restTemplate = new RestTemplate();
         this.objectMapper = new ObjectMapper();
+    }
+
+    private String getDefaultCashAccount(String sessionCookie) {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.add("Cookie", sessionCookie);
+
+            HttpEntity<?> entity = new HttpEntity<>(headers);
+            String url = erpUrl + "/api/resource/Company/TEST/default_cash_account";
+
+            ResponseEntity<String> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                entity,
+                String.class
+            );
+
+            if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+                JsonNode jsonResponse = objectMapper.readTree(response.getBody());
+                if (jsonResponse.has("data")) {
+                    return jsonResponse.get("data").asText();
+                }
+            }
+            return "Cash - TEST"; // Fallback
+        } catch (Exception e) {
+            log.error("Erreur lors de la récupération du compte de caisse par défaut", e);
+            return "Cash - TEST"; // Fallback
+        }
     }
 
     public List<PurchaseInvoiceDTO> getAllPurchaseInvoices(String sessionCookie) {
@@ -82,5 +113,61 @@ public class AccountingService {
 
     private String getStringValue(JsonNode node, String field) {
         return node.has(field) ? node.get(field).asText() : "";
+    }
+
+    public boolean createPaymentEntry(String sessionCookie, PaymentEntryDTO paymentDTO) {
+        try {
+            if (sessionCookie == null) {
+                log.error("Cookie de session manquant");
+                return false;
+            }
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.add("Cookie", sessionCookie);
+
+            ObjectNode requestBody = objectMapper.createObjectNode();
+            requestBody.put("doctype", "Payment Entry");
+            requestBody.put("payment_type", "Pay");
+            requestBody.put("mode_of_payment", paymentDTO.getPaymentMode());
+            requestBody.put("posting_date", paymentDTO.getPaymentDate());
+            requestBody.put("paid_amount", paymentDTO.getPaymentAmount());
+            requestBody.put("received_amount", paymentDTO.getPaymentAmount());
+            requestBody.put("reference_no", paymentDTO.getReference());
+            requestBody.put("reference_date", paymentDTO.getPaymentDate());
+            requestBody.put("party_type", "Supplier");
+            requestBody.put("party", paymentDTO.getSupplier());
+            requestBody.put("paid_to", "Creditors - OD");
+            
+            // Ajout des taux de change
+            requestBody.put("source_exchange_rate", 1.0);
+            requestBody.put("target_exchange_rate", 1.0);
+            requestBody.put("paid_from_account_currency", "EUR");
+            requestBody.put("paid_to_account_currency", "EUR");
+            requestBody.put("paid_from", "Cash - OD");
+
+            // Références aux factures
+            ObjectNode references = objectMapper.createObjectNode();
+            references.put("reference_doctype", "Purchase Invoice");
+            references.put("reference_name", paymentDTO.getInvoiceId());
+            references.put("allocated_amount", paymentDTO.getPaymentAmount());
+            
+            requestBody.putArray("references").add(references);
+
+            HttpEntity<String> entity = new HttpEntity<>(objectMapper.writeValueAsString(requestBody), headers);
+            String url = erpUrl + "/api/resource/Payment Entry";
+
+            ResponseEntity<String> response = restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                entity,
+                String.class
+            );
+
+            return response.getStatusCode() == HttpStatus.OK;
+        } catch (Exception e) {
+            log.error("Erreur lors de la création du paiement", e);
+            return false;
+        }
     }
 } 
