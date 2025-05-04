@@ -138,6 +138,7 @@ public class AccountingService {
             requestBody.put("party_type", "Supplier");
             requestBody.put("party", paymentDTO.getSupplier());
             requestBody.put("paid_to", "Creditors - OD");
+            requestBody.put("docstatus", 1);
             
             // Ajout des taux de change
             requestBody.put("source_exchange_rate", 1.0);
@@ -164,9 +165,43 @@ public class AccountingService {
                 String.class
             );
 
-            return response.getStatusCode() == HttpStatus.OK;
+            if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+                JsonNode jsonResponse = objectMapper.readTree(response.getBody());
+                if (jsonResponse.has("data")) {
+                    String paymentEntryName = jsonResponse.get("data").get("name").asText();
+                    return submitPaymentEntry(sessionCookie, paymentEntryName);
+                }
+            }
+
+            return false;
         } catch (Exception e) {
             log.error("Erreur lors de la création du paiement", e);
+            return false;
+        }
+    }
+
+    private boolean submitPaymentEntry(String sessionCookie, String paymentEntryName) {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.add("Cookie", sessionCookie);
+
+            ObjectNode requestBody = objectMapper.createObjectNode();
+            requestBody.put("docstatus", 1);
+
+            HttpEntity<String> entity = new HttpEntity<>(objectMapper.writeValueAsString(requestBody), headers);
+            String url = erpUrl + "/api/resource/Payment Entry/" + paymentEntryName + "/submit";
+
+            ResponseEntity<String> response = restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                entity,
+                String.class
+            );
+
+            return response.getStatusCode() == HttpStatus.OK;
+        } catch (Exception e) {
+            log.error("Erreur lors de la soumission du paiement {}", paymentEntryName, e);
             return false;
         }
     }
