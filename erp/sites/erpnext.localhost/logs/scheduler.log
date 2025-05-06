@@ -235,3 +235,7 @@
 2025-05-06 08:04:08,314 ERROR scheduler Skipped queueing frappe.oauth.delete_oauth2_data because it was found in queue for erpnext.localhost
 2025-05-06 08:04:08,467 ERROR scheduler Skipped queueing frappe.model.utils.user_settings.sync_user_settings because it was found in queue for erpnext.localhost
 2025-05-06 09:00:01,377 ERROR scheduler Skipped queueing erpnext.manufacturing.doctype.bom_update_log.bom_update_log.resume_bom_cost_update_jobs because it was found in queue for erpnext.localhost
+2025-05-06 19:44:16,014 ERROR scheduler Skipped queueing frappe.integrations.doctype.google_calendar.google_calendar.sync because it was found in queue for erpnext.localhost
+2025-05-06 19:44:16,969 ERROR scheduler Skipped queueing frappe.monitor.flush because it was found in queue for erpnext.localhost
+2025-05-06 19:44:17,351 ERROR scheduler Skipped queueing frappe.email.doctype.notification.notification.trigger_offset_alerts because it was found in queue for erpnext.localhost
+2025-05-06 19:44:17,380 ERROR scheduler Skipped queueing frappe.email.queue.flush because it was found in queue for erpnext.localhost

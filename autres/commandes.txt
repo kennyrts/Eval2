@@ -1,6 +1,6 @@
 _8dc9ff63f31d5916
 
-mysqldump -u root -p _8dc9ff63f31d5916 > backup_erp.sql
+mysqldump -u root -p _8dc9ff63f31d5916 > backup_erp2.sql
 
 mvnw spring-boot:run
 
