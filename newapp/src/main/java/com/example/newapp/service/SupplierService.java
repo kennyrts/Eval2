@@ -256,20 +256,69 @@ public class SupplierService {
             requestBody.set("items", itemsArray);
 
             HttpEntity<String> entity = new HttpEntity<>(objectMapper.writeValueAsString(requestBody), headers);
-            String url = erpUrl + "/api/resource/Supplier Quotation/" + quotationName;
-            log.debug("URL de mise à jour du devis: {}", url);
-            log.debug("Corps de la requête: {}", objectMapper.writeValueAsString(requestBody));
 
+            // Mise à jour du prix
             ResponseEntity<String> response = restTemplate.exchange(
-                url,
+                erpUrl + "/api/resource/Supplier Quotation/" + quotationName,
                 HttpMethod.PUT,
                 entity,
                 String.class
             );
 
-            return response.getStatusCode() == HttpStatus.OK;
+            if (response.getStatusCode().is2xxSuccessful()) {
+                // Si la mise à jour du prix réussit, soumettre automatiquement le devis
+                return submitQuotation(sessionCookie, quotationName);
+            }
+
+            return false;
         } catch (Exception e) {
             log.error("Erreur lors de la mise à jour du prix unitaire", e);
+            return false;
+        }
+    }
+
+    private boolean submitQuotation(String sessionCookie, String quotationName) {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.add("Cookie", sessionCookie);
+
+            // D'abord récupérer le document complet
+            ResponseEntity<String> getResponse = restTemplate.exchange(
+                erpUrl + "/api/resource/Supplier Quotation/" + quotationName,
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                String.class
+            );
+
+            if (!getResponse.getStatusCode().is2xxSuccessful()) {
+                return false;
+            }
+
+            // Extraire les données du document
+            JsonNode docData = objectMapper.readTree(getResponse.getBody()).get("data");
+
+            // Mettre à jour le docstatus
+            ObjectNode doc = (ObjectNode) docData;
+            doc.put("docstatus", 1);
+
+            // Préparer le corps de la requête pour la soumission
+            ObjectNode requestBody = objectMapper.createObjectNode();
+            requestBody.put("doc", doc.toString());
+
+            HttpEntity<String> entity = new HttpEntity<>(objectMapper.writeValueAsString(requestBody), headers);
+
+            // Soumettre le document
+            ResponseEntity<String> response = restTemplate.exchange(
+                erpUrl + "/api/method/frappe.client.submit",
+                HttpMethod.POST,
+                entity,
+                String.class
+            );
+
+            return response.getStatusCode().is2xxSuccessful();
+        } catch (Exception e) {
+            log.error("Erreur lors de la soumission du devis", e);
             return false;
         }
     }

@@ -94,9 +94,11 @@ public class SupplierController {
         boolean success = supplierService.updateItemRate(sessionCookie, quotationName, itemCode, newRate);
         
         if (success) {
-            redirectAttributes.addFlashAttribute("success", "Prix unitaire mis à jour avec succès");
+            redirectAttributes.addFlashAttribute("success", 
+                "Prix unitaire mis à jour et devis soumis automatiquement avec succès");
         } else {
-            redirectAttributes.addFlashAttribute("error", "Erreur lors de la mise à jour du prix unitaire");
+            redirectAttributes.addFlashAttribute("error", 
+                "Erreur lors de la mise à jour du prix unitaire ou de la soumission du devis");
         }
         
         return "redirect:/suppliers/quotations/" + quotationName;
