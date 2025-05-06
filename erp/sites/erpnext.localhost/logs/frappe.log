@@ -61,3 +61,18 @@ Form Dict: {'doctype': 'Purchase Invoice', 'name': 'ACC-PINV-2025-00007', 'cmd':
 2025-05-06 15:41:18,835 ERROR frappe New Exception collected in error log
 Site: erpnext.localhost
 Form Dict: {'doctype': 'Item Group', 'name': 'consommable', 'cmd': 'frappe.client.delete'}
+2025-05-06 18:00:37,037 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'cmd': 'erpnext.fichier.fichier.process_file'}
+2025-05-06 18:00:37,041 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'cmd': 'erpnext.fichier.fichier.process_file'}
+2025-05-06 18:10:20,401 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'cmd': 'erpnext.fichier.fichier.process_file'}
+2025-05-06 18:14:14,148 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'cmd': 'erpnext.fichier.page.fichier.process_file'}
+2025-05-06 18:21:47,483 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'cmd': 'erpnext.fichier.page.fichier.fichier.process_file'}
