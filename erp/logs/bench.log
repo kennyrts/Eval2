@@ -125,3 +125,9 @@
 2025-05-06 07:52:13,507 INFO /home/dell/.venv/bin/bench serve --port 8000
 2025-05-06 07:52:13,609 INFO /home/dell/.venv/bin/bench watch
 2025-05-06 07:52:13,709 INFO /home/dell/.venv/bin/bench worker
+2025-05-06 08:49:08,571 INFO /home/dell/.venv/bin/bench start
+2025-05-06 08:49:09,554 INFO /home/dell/.venv/bin/bench serve --port 8000
+2025-05-06 08:49:09,558 INFO /home/dell/.venv/bin/bench schedule
+2025-05-06 08:49:09,600 INFO /home/dell/.venv/bin/bench worker
+2025-05-06 08:49:09,641 INFO /home/dell/.venv/bin/bench watch
+2025-05-06 09:27:48,664 INFO /home/dell/.venv/bin/bench --site localhost get-frappe-error-log

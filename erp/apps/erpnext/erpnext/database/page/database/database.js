@@ -26,7 +26,7 @@ frappe.pages['database'].on_page_load = function(wrapper) {
 									id="material-request-file" 
 									name="material_request"
 									accept=".csv"
-									required>
+									>
 								<div class="file-name">No file selected</div>
 							</div>
 						</div>
@@ -41,7 +41,7 @@ frappe.pages['database'].on_page_load = function(wrapper) {
 									id="supplier-file" 
 									name="supplier"
 									accept=".csv"
-									required>
+									>
 								<div class="file-name">No file selected</div>
 							</div>
 						</div>
@@ -56,7 +56,7 @@ frappe.pages['database'].on_page_load = function(wrapper) {
 									id="quotation-file" 
 									name="quotation"
 									accept=".csv"
-									required>
+									>
 								<div class="file-name">No file selected</div>
 							</div>
 						</div>
@@ -194,18 +194,15 @@ frappe.pages['database'].on_page_load = function(wrapper) {
 		e.preventDefault();
 		
 		let materialRequestFile = page.main.find('#material-request-file').get(0).files[0];
-		let supplierFile = page.main.find('#supplier-file').get(0).files[0];
-		let quotationFile = page.main.find('#quotation-file').get(0).files[0];
 		
-		if (!materialRequestFile || !supplierFile || !quotationFile) {
-			frappe.throw(__('Please select all three CSV files'));
+		// Pour l'instant, on ne vérifie que le material request file
+		if (!materialRequestFile) {
+			frappe.msgprint(__('Please select Material Request CSV file'));
 			return;
 		}
 
 		let formData = new FormData();
 		formData.append('material_request_file', materialRequestFile);
-		formData.append('supplier_file', supplierFile);
-		formData.append('quotation_file', quotationFile);
 
 		frappe.call({
 			method: 'erpnext.database.page.database.database.import_csv',
@@ -215,7 +212,32 @@ frappe.pages['database'].on_page_load = function(wrapper) {
 			freeze: true,
 			freeze_message: __('Importing CSV files...'),
 			callback: function(r) {
-				if (!r.exc) {
+				if (r.exc) {
+					// Afficher l'erreur détaillée
+					console.log("Error details:", r);
+					
+					// Extraire le message d'erreur
+					let errorMsg = "Import failed";
+					try {
+						if (r._server_messages) {
+							const messages = JSON.parse(r._server_messages);
+							if (messages.length > 0) {
+								const lastMessage = JSON.parse(messages[messages.length - 1]);
+								errorMsg = lastMessage.message;
+							}
+						} else if (r.exception) {
+							errorMsg = r.exception;
+						}
+					} catch (e) {
+						console.error("Error parsing error message:", e);
+					}
+					
+					frappe.msgprint({
+						title: __('Import Error'),
+						indicator: 'red',
+						message: __(errorMsg)
+					});
+				} else {
 					frappe.show_alert({
 						message: __('CSV import successful'),
 						indicator: 'green'
