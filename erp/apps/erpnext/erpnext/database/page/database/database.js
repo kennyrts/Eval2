@@ -24,7 +24,7 @@ frappe.pages['database'].on_page_load = function(wrapper) {
 								<input type="file" 
 									class="form-control" 
 									id="material-request-file" 
-									name="material_request"
+									name="material_request_file"
 									accept=".csv"
 									>
 								<div class="file-name">No file selected</div>
@@ -39,22 +39,7 @@ frappe.pages['database'].on_page_load = function(wrapper) {
 								<input type="file" 
 									class="form-control" 
 									id="supplier-file" 
-									name="supplier"
-									accept=".csv"
-									>
-								<div class="file-name">No file selected</div>
-							</div>
-						</div>
-						<div class="form-group file-upload">
-							<label for="quotation-file">
-								<i class="fa fa-file-o"></i>
-								Request for Quotation CSV File
-							</label>
-							<div class="file-input-wrapper">
-								<input type="file" 
-									class="form-control" 
-									id="quotation-file" 
-									name="quotation"
+									name="supplier_file"
 									accept=".csv"
 									>
 								<div class="file-name">No file selected</div>
@@ -193,16 +178,24 @@ frappe.pages['database'].on_page_load = function(wrapper) {
 	page.main.find('#csv-import-form').on('submit', function(e) {
 		e.preventDefault();
 		
-		let materialRequestFile = page.main.find('#material-request-file').get(0).files[0];
+		let formData = new FormData();
 		
-		// Pour l'instant, on ne vérifie que le material request file
-		if (!materialRequestFile) {
-			frappe.msgprint(__('Please select Material Request CSV file'));
+		// Get files
+		let materialRequestFile = page.main.find('#material-request-file').get(0).files[0];
+		let supplierFile = page.main.find('#supplier-file').get(0).files[0];
+		
+		// Add files to FormData if they exist
+		if (materialRequestFile) {
+			formData.append('material_request_file', materialRequestFile);
+		}
+		if (supplierFile) {
+			formData.append('supplier_file', supplierFile);
+		}
+		
+		if (!materialRequestFile && !supplierFile) {
+			frappe.msgprint(__('Please select at least one CSV file to import'));
 			return;
 		}
-
-		let formData = new FormData();
-		formData.append('material_request_file', materialRequestFile);
 
 		frappe.call({
 			method: 'erpnext.database.page.database.database.import_csv',
@@ -242,6 +235,7 @@ frappe.pages['database'].on_page_load = function(wrapper) {
 						message: __('CSV import successful'),
 						indicator: 'green'
 					});
+					
 					// Reset all file inputs and their display
 					page.main.find('input[type="file"]').val('').each(function() {
 						updateFileName(this);
