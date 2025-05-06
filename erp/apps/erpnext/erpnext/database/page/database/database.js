@@ -8,6 +8,31 @@ frappe.pages['database'].on_page_load = function(wrapper) {
 	// Add sections
 	page.main.html(`
 		<div class="database-page">
+			<div class="section-test card">
+				<div class="section-title">
+					<i class="fa fa-check-circle"></i>
+					Formulaire de Test
+				</div>
+				<div class="section-content">
+					<div class="test-form">
+						<div class="form-group">
+							<label for="test_input">Champ de test</label>
+							<input type="text" class="form-control" id="test_input" placeholder="Entrez une valeur de test">
+						</div>
+						<div class="form-group">
+							<label for="test_file">Fichier de test</label>
+							<div class="file-input-wrapper">
+								<input type="file" class="form-control" id="test_file" name="test_file">
+								<div class="file-name">Aucun fichier sélectionné</div>
+							</div>
+						</div>
+						<button class="btn btn-primary" id="test_button">
+							<i class="fa fa-play"></i> Tester la fonction
+						</button>
+						<div id="test_result" class="mt-3"></div>
+					</div>
+				</div>
+			</div>
 			<div class="section-import card">
 				<div class="section-title">
 					<i class="fa fa-upload"></i>
@@ -179,21 +204,17 @@ frappe.pages['database'].on_page_load = function(wrapper) {
 		}
 	`);
 
-	// Update file name display
-	function updateFileName(input) {
-		const fileName = input.files[0] ? input.files[0].name : 'No file selected';
-		$(input).closest('.file-input-wrapper').find('.file-name').text(fileName);
-	}
-
+	// Update file name display for all file inputs
 	page.main.find('input[type="file"]').on('change', function() {
-		updateFileName(this);
+		const fileName = this.files[0] ? this.files[0].name : 'Aucun fichier sélectionné';
+		$(this).closest('.file-input-wrapper').find('.file-name').text(fileName);
 	});
 
 	// Handle Import CSV
 	page.main.find('#csv-import-form').on('submit', function(e) {
 		e.preventDefault();
 		
-		let formData = new FormData();
+		let form_data = new FormData();
 		
 		// Get files
 		let materialRequestFile = page.main.find('#material-request-file').get(0).files[0];
@@ -202,64 +223,84 @@ frappe.pages['database'].on_page_load = function(wrapper) {
 		
 		// Add files to FormData if they exist
 		if (materialRequestFile) {
-			formData.append('material_request_file', materialRequestFile);
+			form_data.append('material_request_file', materialRequestFile);
 		}
 		if (supplierFile) {
-			formData.append('supplier_file', supplierFile);
+			form_data.append('supplier_file', supplierFile);
 		}
 		if (quotationFile) {
-			formData.append('quotation_file', quotationFile);
+			form_data.append('quotation_file', quotationFile);
 		}
 		
 		if (!materialRequestFile && !supplierFile && !quotationFile) {
-			frappe.msgprint(__('Please select at least one CSV file to import'));
+			frappe.msgprint(__('Veuillez sélectionner au moins un fichier CSV à importer'));
 			return;
 		}
 
-		frappe.call({
-			method: 'erpnext.database.page.database.database.import_csv',
-			args: {
-				files: formData
+		// Ajouter le csrf_token pour la sécurité
+		form_data.append('csrf_token', frappe.csrf_token);
+
+		// Désactiver le bouton pendant l'import
+		let $importButton = page.main.find('.btn-import-csv');
+		$importButton.prop('disabled', true);
+		$importButton.html('<i class="fa fa-spinner fa-spin"></i> Import en cours...');
+
+		$.ajax({
+			url: '/api/method/erpnext.database.page.database.database.import_csv',
+			type: 'POST',
+			data: form_data,
+			processData: false,
+			contentType: false,
+			headers: {
+				'X-Frappe-CSRF-Token': frappe.csrf_token
 			},
-			freeze: true,
-			freeze_message: __('Importing CSV files...'),
-			callback: function(r) {
-				if (r.exc) {
-					// Afficher l'erreur détaillée
-					console.log("Error details:", r);
-					
-					// Extraire le message d'erreur
-					let errorMsg = "Import failed";
-					try {
-						if (r._server_messages) {
-							const messages = JSON.parse(r._server_messages);
-							if (messages.length > 0) {
-								const lastMessage = JSON.parse(messages[messages.length - 1]);
-								errorMsg = lastMessage.message;
-							}
-						} else if (r.exception) {
-							errorMsg = r.exception;
-						}
-					} catch (e) {
-						console.error("Error parsing error message:", e);
+			success: function(r) {
+				if (!r.exc && r.message) {
+					let message = "Import réussi !";
+					if (r.message.created_items && r.message.created_items.length > 0) {
+						message += "\nÉléments créés :\n" + r.message.created_items.join("\n");
 					}
 					
-					frappe.msgprint({
-						title: __('Import Error'),
-						indicator: 'red',
-						message: __(errorMsg)
+					frappe.show_alert({
+						message: message,
+						indicator: 'green'
+					}, 5);
+
+					// Réinitialiser les inputs file
+					page.main.find('input[type="file"]').val('').each(function() {
+						$(this).closest('.file-input-wrapper').find('.file-name').text('Aucun fichier sélectionné');
 					});
 				} else {
 					frappe.show_alert({
-						message: __('CSV import successful'),
-						indicator: 'green'
-					});
-					
-					// Reset all file inputs and their display
-					page.main.find('input[type="file"]').val('').each(function() {
-						updateFileName(this);
-					});
+						message: "Erreur : Réponse invalide du serveur",
+						indicator: 'red'
+					}, 5);
 				}
+			},
+			error: function(xhr, status, error) {
+				console.error("Erreur détaillée:", xhr.responseText);
+				let errorMessage = "Erreur lors de l'import";
+				
+				try {
+					// Tenter de parser le message d'erreur du serveur
+					const response = JSON.parse(xhr.responseText);
+					if (response._server_messages) {
+						const messages = JSON.parse(response._server_messages);
+						errorMessage += " :\n" + messages.join("\n");
+					}
+				} catch (e) {
+					errorMessage += " : " + (xhr.responseJSON ? xhr.responseJSON._server_messages : error);
+				}
+				
+				frappe.show_alert({
+					message: errorMessage,
+					indicator: 'red'
+				}, 5);
+			},
+			complete: function() {
+				// Réactiver le bouton et restaurer son texte
+				$importButton.prop('disabled', false);
+				$importButton.html('<i class="fa fa-upload"></i> Import CSV Files');
 			}
 		});
 	});
@@ -285,5 +326,62 @@ frappe.pages['database'].on_page_load = function(wrapper) {
 				});
 			}
 		);
+	});
+
+	// Handle Test Button
+	page.main.find('#test_button').on('click', function() {
+		let test_value = page.main.find('#test_input').val();
+		let test_file = page.main.find('#test_file').get(0).files[0];
+		
+		let form_data = new FormData();
+		if (test_value) {
+			form_data.append('test_value', test_value);
+		}
+		if (test_file) {
+			form_data.append('test_file', test_file);
+		}
+		
+		// Ajouter le csrf_token pour la sécurité
+		form_data.append('csrf_token', frappe.csrf_token);
+		
+		$.ajax({
+			url: '/api/method/erpnext.database.page.database.database.test_function',
+			type: 'POST',
+			data: form_data,
+			processData: false,
+			contentType: false,
+			headers: {
+				'X-Frappe-CSRF-Token': frappe.csrf_token
+			},
+			success: function(r) {
+				if (!r.exc && r.message) {
+					frappe.show_alert({
+						message: r.message.message,
+						indicator: r.message.status
+					}, 5);
+					
+					let resultHtml = `<div class="alert alert-success">`;
+					resultHtml += `<p>${r.message.message}</p>`;
+					if (r.message.file_content) {
+						resultHtml += `<hr><pre>${r.message.file_content}</pre>`;
+					}
+					resultHtml += `</div>`;
+					
+					page.main.find('#test_result').html(resultHtml);
+				} else {
+					frappe.show_alert({
+						message: "Erreur : Réponse invalide du serveur",
+						indicator: 'red'
+					}, 5);
+				}
+			},
+			error: function(xhr, status, error) {
+				console.error("Erreur détaillée:", xhr.responseText);
+				frappe.show_alert({
+					message: "Erreur lors de l'envoi : " + (xhr.responseJSON ? xhr.responseJSON._server_messages : error),
+					indicator: 'red'
+				}, 5);
+			}
+		});
 	});
 }

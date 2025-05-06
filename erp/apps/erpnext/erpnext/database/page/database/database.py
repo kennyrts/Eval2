@@ -6,6 +6,10 @@ from datetime import datetime
 
 @frappe.whitelist()
 def import_csv():
+    # Add debug logging
+    frappe.log_error("import_csv function called")
+    print("import_csv function called")  # Console logging
+    
     if not frappe.has_permission("System Manager"):
         frappe.throw(_("Only System Manager can import CSV"), frappe.PermissionError)
     
@@ -17,6 +21,9 @@ def import_csv():
         material_request_file = frappe.request.files.get('material_request_file')
         supplier_file = frappe.request.files.get('supplier_file')
         quotation_file = frappe.request.files.get('quotation_file')
+        
+        # Log received files
+        frappe.log_error(f"Files received - Material Request: {bool(material_request_file)}, Supplier: {bool(supplier_file)}, Quotation: {bool(quotation_file)}")
         
         # Process Material Request file if provided
         if material_request_file:
@@ -222,4 +229,35 @@ def reset_database():
     except Exception as e:
         frappe.db.rollback()
         frappe.log_error(frappe.get_traceback())
-        frappe.throw(_("Failed to reset database: {0}").format(str(e))) 
+        frappe.throw(_("Failed to reset database: {0}").format(str(e)))
+
+@frappe.whitelist()
+def test_function():
+    try:
+        message = "Test réussi ! La fonction Python a été appelée avec succès."
+        file_content = None
+        
+        # Récupérer la valeur du champ texte
+        test_value = frappe.form_dict.get('test_value')
+        if test_value:
+            message += f" Valeur saisie : {test_value}"
+            
+        # Récupérer le fichier
+        if 'test_file' in frappe.request.files:
+            file = frappe.request.files['test_file']
+            try:
+                file_content = file.stream.read().decode('utf-8')
+                message += f"\nContenu du fichier :\n{file_content}"
+            except UnicodeDecodeError:
+                message += "\nLe fichier n'est pas un fichier texte lisible."
+            except Exception as e:
+                message += f"\nErreur lors de la lecture du fichier : {str(e)}"
+                
+        return {
+            "message": message,
+            "status": "success",
+            "file_content": file_content
+        }
+    except Exception as e:
+        frappe.log_error(f"Test Function Error: {str(e)}\nForm Data: {frappe.form_dict}\nFiles: {frappe.request.files}")
+        frappe.throw(_("Erreur lors du test : {0}").format(str(e))) 

@@ -52,3 +52,12 @@ Form Dict: {'cmd': 'erpnext.database.page.database.database.import_csv'}
 2025-05-06 11:18:14,440 ERROR frappe New Exception collected in error log
 Site: erpnext.localhost
 Form Dict: {'cmd': 'erpnext.database.page.database.database.import_csv'}
+2025-05-06 11:35:42,333 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'cmd': 'erpnext.database.page.database.database.import_csv'}
+2025-05-06 15:38:45,906 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doctype': 'Purchase Invoice', 'name': 'ACC-PINV-2025-00007', 'cmd': 'frappe.client.delete'}
+2025-05-06 15:41:18,835 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doctype': 'Item Group', 'name': 'consommable', 'cmd': 'frappe.client.delete'}
