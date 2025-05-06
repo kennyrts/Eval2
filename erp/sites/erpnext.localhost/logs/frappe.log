@@ -85,3 +85,18 @@ Form Dict: {'doctype': 'Repost Item Valuation', 'name': '5vt0umonn7', 'cmd': 'fr
 2025-05-06 21:37:41,396 ERROR frappe New Exception collected in error log
 Site: erpnext.localhost
 Form Dict: {'cmd': 'erpnext.database.page.database.database.reset_database'}
+2025-05-06 22:32:02,429 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doctype': 'Supplier Quotation', 'name': 'PUR-SQTN-2025-00002', 'action': 'submit', 'cmd': 'frappe.desk.form.save.submit'}
+2025-05-06 22:37:03,238 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'docstatus': 1}
+2025-05-06 22:41:01,306 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'cmd': 'frappe.client.submit', 'doctype': 'Supplier Quotation', 'name': 'PUR-SQTN-2025-00002'}
+2025-05-06 22:41:53,339 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'items': [{'item_code': 'boulon', 'rate': 2.0, 'qty': 13.0}]}
+2025-05-06 23:57:00,207 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doc': '{"docstatus":0,"doctype":"Page","name":"new-page-zyxcaimteo","__islocal":1,"__unsaved":1,"owner":"Administrator","system_page":0,"standard":"Yes","roles":[{"docstatus":0,"doctype":"Has Role","name":"new-has-role-ucofwrlcgc","__islocal":1,"__unsaved":1,"owner":"Administrator","parent":"new-page-zyxcaimteo","parentfield":"roles","parenttype":"Page","idx":1,"__unedited":false,"role":"Administrator","__checked":0}],"page_name":"purchase-calendar","module":"Buying"}', 'action': 'Save', 'cmd': 'frappe.desk.form.save.savedocs'}

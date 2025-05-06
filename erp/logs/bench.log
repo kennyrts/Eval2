@@ -148,3 +148,18 @@
 2025-05-06 22:06:55,731 INFO /home/dell/.venv/bin/bench worker
 2025-05-06 22:06:55,762 INFO /home/dell/.venv/bin/bench serve --port 8000
 2025-05-06 22:06:55,763 INFO /home/dell/.venv/bin/bench schedule
+2025-05-07 00:00:07,710 INFO /home/dell/.venv/bin/bench --verbose --site all backup
+2025-05-07 00:01:13,304 INFO /home/dell/.venv/bin/bench migrate
+2025-05-07 00:02:03,503 INFO /home/dell/.venv/bin/bench --site erpnext.localhost migrate
+2025-05-07 00:02:40,355 INFO /home/dell/.venv/bin/bench start
+2025-05-07 00:02:41,016 INFO /home/dell/.venv/bin/bench serve --port 8000
+2025-05-07 00:02:41,046 INFO /home/dell/.venv/bin/bench watch
+2025-05-07 00:02:41,111 INFO /home/dell/.venv/bin/bench worker
+2025-05-07 00:02:41,242 INFO /home/dell/.venv/bin/bench schedule
+2025-05-07 00:03:05,179 INFO /home/dell/.venv/bin/bench migrate
+2025-05-07 00:03:38,818 INFO /home/dell/.venv/bin/bench --site erpnext.localhost migrate
+2025-05-07 00:14:05,758 INFO /home/dell/.venv/bin/bench start
+2025-05-07 00:14:06,826 INFO /home/dell/.venv/bin/bench worker
+2025-05-07 00:14:06,836 INFO /home/dell/.venv/bin/bench watch
+2025-05-07 00:14:06,855 INFO /home/dell/.venv/bin/bench schedule
+2025-05-07 00:14:07,033 INFO /home/dell/.venv/bin/bench serve --port 8000
