@@ -37,3 +37,18 @@ Form Dict: {'cmd': 'erpnext.database.page.database.database.import_csv'}
 2025-05-06 10:26:21,147 ERROR frappe New Exception collected in error log
 Site: erpnext.localhost
 Form Dict: {'cmd': 'erpnext.database.page.database.database.import_csv'}
+2025-05-06 10:41:34,370 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doctype': 'Supplier', 'name': 'Sanifer', 'cmd': 'frappe.client.delete'}
+2025-05-06 10:42:37,303 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doctype': 'Request for Quotation', 'name': 'PUR-RFQ-2025-00001', 'cmd': 'frappe.client.delete'}
+2025-05-06 10:48:02,927 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doctype': 'Supplier', 'name': 'Sanifer', 'cmd': 'frappe.client.delete'}
+2025-05-06 11:13:28,961 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'cmd': 'erpnext.database.page.database.database.import_csv'}
+2025-05-06 11:18:14,440 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'cmd': 'erpnext.database.page.database.database.import_csv'}

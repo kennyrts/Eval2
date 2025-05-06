@@ -45,6 +45,21 @@ frappe.pages['database'].on_page_load = function(wrapper) {
 								<div class="file-name">No file selected</div>
 							</div>
 						</div>
+						<div class="form-group file-upload">
+							<label for="quotation-file">
+								<i class="fa fa-file-o"></i>
+								Request for Quotation CSV File
+							</label>
+							<div class="file-input-wrapper">
+								<input type="file" 
+									class="form-control" 
+									id="quotation-file" 
+									name="quotation_file"
+									accept=".csv"
+									>
+								<div class="file-name">No file selected</div>
+							</div>
+						</div>
 						<button type="submit" class="btn btn-primary btn-import-csv">
 							<i class="fa fa-upload"></i> Import CSV Files
 						</button>
@@ -183,6 +198,7 @@ frappe.pages['database'].on_page_load = function(wrapper) {
 		// Get files
 		let materialRequestFile = page.main.find('#material-request-file').get(0).files[0];
 		let supplierFile = page.main.find('#supplier-file').get(0).files[0];
+		let quotationFile = page.main.find('#quotation-file').get(0).files[0];
 		
 		// Add files to FormData if they exist
 		if (materialRequestFile) {
@@ -191,8 +207,11 @@ frappe.pages['database'].on_page_load = function(wrapper) {
 		if (supplierFile) {
 			formData.append('supplier_file', supplierFile);
 		}
+		if (quotationFile) {
+			formData.append('quotation_file', quotationFile);
+		}
 		
-		if (!materialRequestFile && !supplierFile) {
+		if (!materialRequestFile && !supplierFile && !quotationFile) {
 			frappe.msgprint(__('Please select at least one CSV file to import'));
 			return;
 		}

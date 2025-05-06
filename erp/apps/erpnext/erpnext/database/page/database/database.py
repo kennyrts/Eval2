@@ -2,6 +2,7 @@ import frappe
 from frappe import _
 import csv
 from io import StringIO
+from datetime import datetime
 
 @frappe.whitelist()
 def import_csv():
@@ -12,30 +13,10 @@ def import_csv():
         # Get uploaded files
         material_request_file = frappe.request.files.get('material_request_file')
         supplier_file = frappe.request.files.get('supplier_file')
+        quotation_file = frappe.request.files.get('quotation_file')
         
         created_items = []
-        
-        # Process Supplier file if provided
-        if supplier_file:
-            supplier_content = supplier_file.stream.read().decode('utf-8')
-            supplier_reader = csv.DictReader(StringIO(supplier_content))
-            
-            for row in supplier_reader:
-                # Convert Usa to United States
-                country = "United States" if row['country'].lower() == "usa" else row['country']
-                
-                if not frappe.db.exists("Supplier", {"supplier_name": row['supplier_name']}):
-                    supplier = frappe.get_doc({
-                        "doctype": "Supplier",
-                        "supplier_name": row['supplier_name'],
-                        "supplier_type": row['type'],
-                        "country": country,
-                        "supplier_group": "All Supplier Groups"
-                    })
-                    supplier.insert()
-                    created_items.append(f"Supplier: {row['supplier_name']}")
-                else:
-                    frappe.log_error(f"Supplier {row['supplier_name']} already exists")
+        ref_to_mr = {}  # Pour stocker la correspondance entre ref et Material Request
         
         # Process Material Request file if provided
         if material_request_file:
@@ -66,7 +47,6 @@ def import_csv():
                     item.insert()
                 
                 # Step 3: Create Material Request
-                from datetime import datetime
                 date_obj = datetime.strptime(row['date'], '%d/%m/%Y')
                 required_date_obj = datetime.strptime(row['required_by'], '%d/%m/%Y')
                 
@@ -87,10 +67,93 @@ def import_csv():
                     }]
                 })
                 material_request.insert()
-                
-                # Step 4: Submit the Material Request
                 material_request.submit()
                 created_items.append(f"Material Request: {material_request.name}")
+                
+                # Store reference to Material Request
+                ref_to_mr[row['ref']] = material_request.name
+        
+        # Process Supplier file if provided
+        if supplier_file:
+            supplier_content = supplier_file.stream.read().decode('utf-8')
+            supplier_reader = csv.DictReader(StringIO(supplier_content))
+            
+            for row in supplier_reader:
+                # Convert Usa to United States
+                country = "United States" if row['country'].lower() == "usa" else row['country']
+                
+                if not frappe.db.exists("Supplier", {"supplier_name": row['supplier_name']}):
+                    supplier = frappe.get_doc({
+                        "doctype": "Supplier",
+                        "supplier_name": row['supplier_name'],
+                        "supplier_type": row['type'],
+                        "country": country,
+                        "supplier_group": "All Supplier Groups"
+                    })
+                    supplier.insert()
+                    created_items.append(f"Supplier: {row['supplier_name']}")
+        
+        # Process Quotation file if provided
+        if quotation_file:
+            quotation_content = quotation_file.stream.read().decode('utf-8')
+            quotation_reader = csv.DictReader(StringIO(quotation_content))
+            
+            # Group suppliers by ref_request_quotation
+            quotations = {}
+            for row in quotation_reader:
+                ref = row['ref_request_quotation']
+                if ref not in quotations:
+                    quotations[ref] = []
+                quotations[ref].append(row['supplier'])
+            
+            # Create RFQ and Supplier Quotations for each group
+            for ref, suppliers in quotations.items():
+                if ref not in ref_to_mr:
+                    continue
+                    
+                mr = frappe.get_doc("Material Request", ref_to_mr[ref])
+                
+                # Create Request for Quotation
+                rfq = frappe.get_doc({
+                    "doctype": "Request for Quotation",
+                    "transaction_date": mr.transaction_date,
+                    "company": "Orinasa",
+                    "message_for_supplier": "Please provide your best quote for the items listed below.",
+                    "suppliers": [{"supplier": supplier} for supplier in suppliers],
+                    "items": [{
+                        "item_code": item.item_code,
+                        "qty": item.qty,
+                        "schedule_date": item.schedule_date,
+                        "warehouse": item.warehouse,
+                        "material_request": mr.name,
+                        "material_request_item": item.name,
+                        "uom": "Nos",
+                        "stock_uom": "Nos",
+                        "conversion_factor": 1.0
+                    } for item in mr.items]
+                })
+                rfq.insert()
+                rfq.submit()
+                created_items.append(f"Request for Quotation: {rfq.name}")
+                
+                # Create Supplier Quotation for each supplier
+                for supplier in suppliers:
+                    sq = frappe.get_doc({
+                        "doctype": "Supplier Quotation",
+                        "supplier": supplier,
+                        "company": "Orinasa",
+                        "valid_till": mr.schedule_date,
+                        "items": [{
+                            "item_code": item.item_code,
+                            "qty": item.qty,
+                            "rate": 1.0,  # Prix par défaut
+                            "warehouse": item.warehouse,
+                            "request_for_quotation": rfq.name,
+                            "material_request": mr.name
+                        } for item in mr.items]
+                    })
+                    sq.insert()
+                    created_items.append(f"Supplier Quotation: {sq.name}")
         
         frappe.db.commit()
         return {
