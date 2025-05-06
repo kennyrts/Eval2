@@ -239,3 +239,5 @@
 2025-05-06 19:44:16,969 ERROR scheduler Skipped queueing frappe.monitor.flush because it was found in queue for erpnext.localhost
 2025-05-06 19:44:17,351 ERROR scheduler Skipped queueing frappe.email.doctype.notification.notification.trigger_offset_alerts because it was found in queue for erpnext.localhost
 2025-05-06 19:44:17,380 ERROR scheduler Skipped queueing frappe.email.queue.flush because it was found in queue for erpnext.localhost
+2025-05-06 21:04:14,570 ERROR scheduler Skipped queueing frappe.desk.page.backups.backups.delete_downloadable_backups because it was found in queue for erpnext.localhost
+2025-05-06 21:04:14,634 ERROR scheduler Skipped queueing erpnext.projects.doctype.project.project.collect_project_status because it was found in queue for erpnext.localhost
