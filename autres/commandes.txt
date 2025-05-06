@@ -1,8 +1,11 @@
 _8dc9ff63f31d5916
 
-mysqldump -u root -p _8dc9ff63f31d5916 > backup_erp.sql
+mysqldump -u root -p _8dc9ff63f31d5916 > backup_erp3.sql
 
 mvnw spring-boot:run
 
-mvnw clean package
-java -jar target/newapp-0.0.1-SNAPSHOT.jar
+
+Invalid wkhtmltopdf version
+PDF generation may not work as expected.
+Please contact your system manager to install correct version.
+Correct version : wkhtmltopdf 0.12.x (with patched qt).

@@ -210,26 +210,81 @@ def import_csv():
 
 @frappe.whitelist()
 def reset_database():
+    frappe.log_error("message","reset_database function called")
     if not frappe.has_permission("System Manager"):
         frappe.throw(_("Only System Manager can reset database"), frappe.PermissionError)
     
-    try:
-        # Backup current database state
-        frappe.backup()
+    try:                
+        # Liste des doctypes à supprimer dans l'ordre inverse des dépendances
+        doctypes_to_delete = [
+            # Documents financiers
+            "Payment Entry",
+            "Purchase Invoice",
+            "Purchase Receipt",
+            
+            # Documents d'achat
+            "Purchase Order",
+            "Supplier Quotation",
+            "Request for Quotation",
+            "Material Request",
+            
+            # Documents de base
+            "Item",
+            "Item Group",
+            "Supplier"
+        ]
         
-        # Reset database (implement your reset logic here)
-        # This is a placeholder - you should implement the actual reset logic
-        # based on your specific requirements
+        deleted_count = {}
         
-        frappe.db.sql("SHOW TABLES")  # Example query
+        for doctype in doctypes_to_delete:
+            try:
+                # Récupérer tous les documents, y compris les soumis
+                docs = frappe.get_all(doctype)
+                count = len(docs)
+                
+                for doc in docs:
+                    try:
+                        # Récupérer le document complet
+                        doc_to_delete = frappe.get_doc(doctype, doc.name)
+                        
+                        # Si le document est soumis, on l'annule d'abord
+                        if doc_to_delete.docstatus == 1:
+                            doc_to_delete.cancel()
+                            frappe.db.commit()
+                        
+                        # Supprimer le document
+                        frappe.delete_doc(doctype, doc.name, ignore_permissions=True)
+                        frappe.db.commit()
+                        
+                    except Exception as e:
+                        frappe.log_error(f"Error deleting {doctype} {doc.name}: {str(e)}")
+                
+                deleted_count[doctype] = count
+                
+            except Exception as e:
+                frappe.log_error(f"Error processing doctype {doctype}: {str(e)}")
         
-        frappe.db.commit()
-        return True
+        # Préparer le message détaillé
+        message = "Base de données réinitialisée avec succès.\n\nDétails des suppressions :\n"
+        for doctype, count in deleted_count.items():
+            if count > 0:
+                message += f"- {doctype}: {count} document(s) supprimé(s)\n"
+        
+        # Envoyer un message à l'utilisateur
+        frappe.msgprint(_(message))
+        
+        return {
+            "message": message,
+            "deleted_records": deleted_count,
+            "status": "success"
+        }
         
     except Exception as e:
         frappe.db.rollback()
         frappe.log_error(frappe.get_traceback())
-        frappe.throw(_("Failed to reset database: {0}").format(str(e)))
+        error_message = f"Échec de la réinitialisation de la base de données : {str(e)}"
+        frappe.msgprint(_(error_message), title="Erreur", indicator="red")
+        frappe.throw(_(error_message))
 
 @frappe.whitelist()
 def test_function():
