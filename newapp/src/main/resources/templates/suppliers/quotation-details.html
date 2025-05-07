@@ -3,7 +3,74 @@
 <head>
     <title>Détails du Devis - NewApp</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #343a40;
+            color: #fff;
+            flex-shrink: 0;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+        }
+        .sidebar-header {
+            padding: 1.5rem 1rem;
+            font-size: 1.2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+        .sidebar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.7);
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .sidebar-nav .nav-link.active {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .sidebar-nav .nav-link:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem;
+            background-color: #f8f9fa;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+        }
+        .logout-btn {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: auto;
+            padding: 1rem;
+        }
+        .logout-btn button {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 0.5rem;
+            width: 100%;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logout-btn button:hover {
+            color: white;
+        }
         .price-input {
             width: 120px;
         }
@@ -14,34 +81,45 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="#">NewApp</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/suppliers">Fournisseurs</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <form th:action="@{/logout}" method="post" class="d-inline">
-                            <button type="submit" class="btn btn-link nav-link">Déconnexion</button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
+    <!-- Sidebar -->
+    <div class="sidebar d-flex flex-column">
+        <div class="sidebar-header">
+            <strong>NewApp</strong>
         </div>
-    </nav>
+        <ul class="nav flex-column sidebar-nav">
+            <li class="nav-item">
+                <a class="nav-link active" href="/suppliers">
+                    <i class="bi bi-building"></i> Fournisseurs
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/accounting/invoices">
+                    <i class="bi bi-file-earmark-text"></i> Comptabilité
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/alea/form">
+                    <i class="bi bi-file-earmark-plus"></i> Nouveau Devis
+                </a>
+            </li>
+        </ul>
+        <div class="logout-btn mt-auto">
+            <form th:action="@{/logout}" method="post">
+                <button type="submit">
+                    <i class="bi bi-box-arrow-right"></i> Déconnexion
+                </button>
+            </form>
+        </div>
+    </div>
 
-    <div class="container mt-4">
+    <!-- Main Content -->
+    <div class="main-content">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2>Détails du Devis - <span th:text="${quotation.name}"></span></h2>
             <div>
-                <a th:href="@{/suppliers/{supplier}/quotations(supplier=${quotation.supplier})}" class="btn btn-secondary me-2">Retour</a>
+                <a th:href="@{/suppliers/{supplier}/quotations(supplier=${quotation.supplier})}" class="btn btn-secondary me-2">
+                    <i class="bi bi-arrow-left"></i> Retour
+                </a>
                 <a th:href="@{/suppliers/quotations/{quotationName}/pdf(quotationName=${quotation.name})}" 
                    class="btn btn-primary" target="_blank">
                     <i class="bi bi-printer"></i> Imprimer PDF
@@ -173,15 +251,8 @@
                     </table>
                 </div>
                     <div class="d-flex justify-content-end mt-3">
-                        <button type="button" class="btn btn-primary me-2" onclick="updatePrices()">
-                            Mettre à jour les prix
-                        </button>
-                        <button type="button" 
-                                class="btn btn-success" 
-                                onclick="submitQuotation()"
-                                id="submitButton"
-                                disabled>
-                            Soumettre le devis
+                        <button type="button" class="btn btn-primary" onclick="updatePrices()">
+                            <i class="bi bi-save"></i> Mettre à jour les prix
                         </button>
                     </div>
                 </form>
@@ -197,11 +268,9 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     
     <script th:inline="javascript">
         const quotationName = /*[[${quotation.name}]]*/ '';
-        let pricesUpdated = false;
 
         function updateAmount(input) {
             const row = input.closest('tr');
@@ -240,31 +309,7 @@
                 return response.text();
             })
             .then(() => {
-                pricesUpdated = true;
-                document.getElementById('submitButton').disabled = false;
                 alert('Prix mis à jour avec succès');
-            })
-            .catch(error => {
-                alert('Erreur: ' + error.message);
-            });
-        }
-
-        function submitQuotation() {
-            if (!pricesUpdated) {
-                alert('Veuillez d\'abord mettre à jour les prix');
-                return;
-            }
-
-            fetch(`/suppliers/quotations/${quotationName}/submit`, {
-                method: 'POST'
-            })
-            .then(response => {
-                if (!response.ok) throw new Error('Erreur lors de la soumission');
-                return response.text();
-            })
-            .then(() => {
-                alert('Devis soumis avec succès');
-                window.location.reload();
             })
             .catch(error => {
                 alert('Erreur: ' + error.message);
