@@ -190,3 +190,15 @@ Form Dict: {'docstatus': 1}
 2025-05-07 14:18:31,991 ERROR frappe New Exception collected in error log
 Site: erpnext.localhost
 Form Dict: {'docstatus': 1}
+2025-05-07 14:24:45,800 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {}
+2025-05-07 14:28:15,321 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doctype': 'Payment Entry', 'name': 'ACC-PAY-2025-00019', 'docstatus': 1, 'run_method': 'submit', 'cmd': 'frappe.client.submit'}
+2025-05-07 14:31:35,074 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doc': 'ACC-PAY-2025-00020'}
+2025-05-07 14:33:49,981 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {}

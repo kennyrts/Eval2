@@ -186,7 +186,7 @@ public class AccountingService {
             headers.add("Cookie", sessionCookie);
 
             ObjectNode requestBody = objectMapper.createObjectNode();
-            requestBody.put("docstatus", 1);
+            requestBody.put("run_method", "submit");
 
             HttpEntity<String> entity = new HttpEntity<>(objectMapper.writeValueAsString(requestBody), headers);
             String url = erpUrl + "/api/resource/Payment Entry/" + paymentEntryName + "/submit";
