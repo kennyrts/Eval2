@@ -31,7 +31,13 @@
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2>Détails du Devis - <span th:text="${quotation.name}"></span></h2>
-            <a th:href="@{/suppliers/{supplier}/quotations(supplier=${quotation.supplier})}" class="btn btn-secondary">Retour</a>
+            <div>
+                <a th:href="@{/suppliers/{supplier}/quotations(supplier=${quotation.supplier})}" class="btn btn-secondary me-2">Retour</a>
+                <a th:href="@{/suppliers/quotations/{quotationName}/pdf(quotationName=${quotation.name})}" 
+                   class="btn btn-primary" target="_blank">
+                    <i class="bi bi-printer"></i> Imprimer PDF
+                </a>
+            </div>
         </div>
 
         <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
