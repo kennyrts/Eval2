@@ -135,7 +135,7 @@ public class AccountingService {
             requestBody.put("payment_type", "Pay");
             requestBody.put("posting_date", paymentDTO.getPaymentDate());
             requestBody.put("company", "ITUniversity");
-            requestBody.put("mode_of_payment", paymentDTO.getPaymentMode() != null ? paymentDTO.getPaymentMode() : "Cash");
+            requestBody.put("mode_of_payment", "Cash");
             requestBody.put("party_type", "Supplier");
             requestBody.put("party", paymentDTO.getSupplier());
             
@@ -160,12 +160,6 @@ public class AccountingService {
             referencesArray.add(reference);
             requestBody.set("references", referencesArray);
             
-            // Enregistrer le numéro de référence (numéro de chèque, etc.) s'il est fourni
-            if (paymentDTO.getReference() != null && !paymentDTO.getReference().isEmpty()) {
-                requestBody.put("reference_no", paymentDTO.getReference());
-                requestBody.put("reference_date", paymentDTO.getPaymentDate());
-            }
-    
             log.debug("Corps de la requête de création de paiement: {}", objectMapper.writeValueAsString(requestBody));
             
             HttpEntity<String> entity = new HttpEntity<>(objectMapper.writeValueAsString(requestBody), headers);
