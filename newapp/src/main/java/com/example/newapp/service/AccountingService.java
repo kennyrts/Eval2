@@ -123,50 +123,47 @@ public class AccountingService {
                 log.error("Cookie de session manquant");
                 return false;
             }
-
+    
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.add("Cookie", sessionCookie);
-
+    
             ObjectNode requestBody = objectMapper.createObjectNode();
-            requestBody.put("doctype", "Payment Entry");
-            requestBody.put("payment_type", "Pay");
-            requestBody.put("mode_of_payment", paymentDTO.getPaymentMode());
+            // Ajout des champs exactement comme dans le JSON qui fonctionne
+            requestBody.put("mode_of_payment", "Cash");
             requestBody.put("posting_date", paymentDTO.getPaymentDate());
-            requestBody.put("paid_amount", paymentDTO.getPaymentAmount());
-            requestBody.put("received_amount", paymentDTO.getPaymentAmount());
-            requestBody.put("reference_no", paymentDTO.getReference());
-            requestBody.put("reference_date", paymentDTO.getPaymentDate());
+            requestBody.put("target_exchange_rate", 1.0);
             requestBody.put("party_type", "Supplier");
             requestBody.put("party", paymentDTO.getSupplier());
             requestBody.put("paid_to", "Creditors - ITU");
-            requestBody.put("docstatus", 1);
-            
-            // Ajout des taux de change
-            requestBody.put("source_exchange_rate", 1.0);
-            requestBody.put("target_exchange_rate", 1.0);
-            requestBody.put("paid_from_account_currency", "EUR");
             requestBody.put("paid_to_account_currency", "EUR");
-            requestBody.put("paid_from", "Cash - ITU");
-
-            // Références aux factures
-            ObjectNode references = objectMapper.createObjectNode();
-            references.put("reference_doctype", "Purchase Invoice");
-            references.put("reference_name", paymentDTO.getInvoiceId());
-            references.put("allocated_amount", paymentDTO.getPaymentAmount());
+            requestBody.put("paid_amount", paymentDTO.getPaymentAmount());
+            requestBody.put("received_amount", paymentDTO.getPaymentAmount());
+            requestBody.put("paid_from", "Creditors - ITU");
+            requestBody.put("paid_from_account_currency", "EUR");
+            requestBody.put("payment_type", "Pay");
+            requestBody.put("company", "ITUniversity");
+    
+            // Création du tableau references
+            ObjectNode reference = objectMapper.createObjectNode();
+            reference.put("reference_doctype", "Purchase Invoice");
+            reference.put("reference_name", paymentDTO.getInvoiceId());
+            reference.put("total_amount", paymentDTO.getPaymentAmount());
+            reference.put("outstanding_amount", paymentDTO.getPaymentAmount());
+            reference.put("allocated_amount", paymentDTO.getPaymentAmount());
             
-            requestBody.putArray("references").add(references);
-
+            requestBody.putArray("references").add(reference);
+    
             HttpEntity<String> entity = new HttpEntity<>(objectMapper.writeValueAsString(requestBody), headers);
             String url = erpUrl + "/api/resource/Payment Entry";
-
+    
             ResponseEntity<String> response = restTemplate.exchange(
                 url,
                 HttpMethod.POST,
                 entity,
                 String.class
             );
-
+    
             if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
                 JsonNode jsonResponse = objectMapper.readTree(response.getBody());
                 if (jsonResponse.has("data")) {
@@ -174,7 +171,7 @@ public class AccountingService {
                     return submitPaymentEntry(sessionCookie, paymentEntryName);
                 }
             }
-
+    
             return false;
         } catch (Exception e) {
             log.error("Erreur lors de la création du paiement", e);

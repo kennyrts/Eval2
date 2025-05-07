@@ -115,21 +115,21 @@
             <div class="card-body">
                 <h5 class="card-title">Articles</h5>
                 <form id="quotationForm">
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Code Article</th>
-                                    <th>Nom</th>
-                                    <th>Description</th>
-                                    <th>Quantité</th>
-                                    <th>UdM</th>
-                                    <th>Prix Unitaire</th>
-                                    <th>Montant</th>
-                                    <th>Délai (jours)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Code Article</th>
+                                <th>Nom</th>
+                                <th>Description</th>
+                                <th>Quantité</th>
+                                <th>UdM</th>
+                                <th>Prix Unitaire</th>
+                                <th>Montant</th>
+                                <th>Délai (jours)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                                 <tr th:each="item : ${quotation.items}" class="item-row">
                                     <td>
                                         <input type="hidden" name="itemCode" th:value="${item.itemCode}">
@@ -152,11 +152,11 @@
                                         <span th:text="${item.uom}">UDM</span>
                                     </td>
                                     <td>
-                                        <input type="number" 
+                                        <input type="number"
                                                name="rate" 
-                                               th:value="${item.rate}" 
+                                               th:value="${item.rate}"
                                                class="form-control form-control-sm price-input"
-                                               step="0.01" 
+                                               step="0.01"
                                                onchange="updateAmount(this)"
                                                required>
                                     </td>
@@ -167,11 +167,11 @@
                                     <td>
                                         <input type="hidden" name="leadTimeDays" th:value="${item.leadTimeDays}">
                                         <span th:text="${item.leadTimeDays}">DÉLAI</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                     <div class="d-flex justify-content-end mt-3">
                         <button type="button" class="btn btn-primary me-2" onclick="updatePrices()">
                             Mettre à jour les prix

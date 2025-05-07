@@ -160,3 +160,33 @@ Form Dict: {'doctype': 'Payment Entry', 'payment_type': 'Pay', 'mode_of_payment'
 2025-05-07 10:40:18,343 ERROR frappe New Exception collected in error log
 Site: erpnext.localhost
 Form Dict: {'doctype': 'Payment Entry', 'payment_type': 'Pay', 'mode_of_payment': 'Cash', 'posting_date': '2025-05-07', 'paid_amount': 10.0, 'received_amount': 10.0, 'reference_no': '', 'reference_date': '2025-05-07', 'party_type': 'Supplier', 'party': 'Exxon', 'paid_to': 'Creditors - ITU', 'docstatus': 1, 'source_exchange_rate': 1.0, 'target_exchange_rate': 1.0, 'paid_from_account_currency': 'EUR', 'paid_to_account_currency': 'EUR', 'paid_from': 'Cash - ITU', 'references': [{'reference_doctype': 'Purchase Invoice', 'reference_name': 'ACC-PINV-2025-00002', 'allocated_amount': 10.0}]}
+2025-05-07 13:19:11,177 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doctype': 'Payment Entry', 'payment_type': 'Pay', 'mode_of_payment': 'Cash', 'posting_date': '2025-05-07', 'paid_amount': 10.0, 'received_amount': 10.0, 'reference_no': '', 'reference_date': '2025-05-07', 'party_type': 'Supplier', 'party': 'Sanifer', 'paid_to': 'Creditors - ITU', 'docstatus': 1, 'source_exchange_rate': 1.0, 'target_exchange_rate': 1.0, 'paid_from_account_currency': 'EUR', 'paid_to_account_currency': 'EUR', 'paid_from': 'Cash - ITU', 'references': [{'reference_doctype': 'Purchase Invoice', 'reference_name': 'ACC-PINV-2025-00002', 'allocated_amount': 10.0}]}
+2025-05-07 13:20:39,877 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doctype': 'Payment Entry', 'payment_type': 'Pay', 'mode_of_payment': 'Cash', 'posting_date': '2025-05-07', 'paid_amount': 10.0, 'received_amount': 10.0, 'reference_no': '', 'reference_date': '2025-05-07', 'party_type': 'Supplier', 'party': 'Electroplus', 'paid_to': 'Creditors - ITU', 'docstatus': 1, 'source_exchange_rate': 1.0, 'target_exchange_rate': 1.0, 'paid_from_account_currency': 'EUR', 'paid_to_account_currency': 'EUR', 'paid_from': 'Cash - ITU', 'references': [{'reference_doctype': 'Purchase Invoice', 'reference_name': 'ACC-PINV-2025-00002', 'allocated_amount': 10.0}]}
+2025-05-07 13:33:21,720 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doctype': 'Payment Entry', 'payment_type': 'Pay', 'mode_of_payment': 'Cash', 'posting_date': '2025-05-07', 'paid_amount': 10.0, 'received_amount': 10.0, 'reference_no': '', 'reference_date': '2025-05-07', 'party_type': 'Supplier', 'party': 'Electroplus', 'paid_to': 'Creditors - O', 'docstatus': 1, 'source_exchange_rate': 1.0, 'target_exchange_rate': 1.0, 'paid_from_account_currency': 'EUR', 'paid_to_account_currency': 'EUR', 'paid_from': 'Cash - O', 'references': [{'reference_doctype': 'Purchase Invoice', 'reference_name': 'ACC-PINV-2025-00002', 'allocated_amount': 10.0}]}
+2025-05-07 13:33:34,761 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doctype': 'Payment Entry', 'payment_type': 'Pay', 'mode_of_payment': 'Cash', 'posting_date': '2025-05-07', 'paid_amount': 10.0, 'received_amount': 10.0, 'reference_no': '', 'reference_date': '2025-05-07', 'party_type': 'Supplier', 'party': 'Electroplus', 'paid_to': 'Creditors - ITU', 'docstatus': 1, 'source_exchange_rate': 1.0, 'target_exchange_rate': 1.0, 'paid_from_account_currency': 'EUR', 'paid_to_account_currency': 'EUR', 'paid_from': 'Cash - O', 'references': [{'reference_doctype': 'Purchase Invoice', 'reference_name': 'ACC-PINV-2025-00002', 'allocated_amount': 10.0}]}
+2025-05-07 14:01:47,483 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'mode_of_payment': 'Cash', 'posting_date': '2024-03-19', 'target_exchange_rate': 1.0, 'party_type': 'Supplier', 'party': 'Electroplus', 'paid_to': 'Creditors - ITU', 'paid_to_account_currency': 'EUR', 'paid_amount': '10.0', 'received_amount': '10.0', 'paid_from': 'Creditors - ITU', 'paid_from_account_currency': 'EUR', 'payment_type': 'Pay', 'company': 'ITUniversity', 'references': [{'reference_doctype': 'Purchase Invoice', 'reference_name': 'ACC-PINV-2025-00002', 'total_amount': '10.0', 'outstanding_amount': '10.0', 'allocated_amount': '10.0'}]}
+2025-05-07 14:02:23,908 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'mode_of_payment': 'Cash', 'posting_date': '2024-03-19', 'target_exchange_rate': 1.0, 'party_type': 'Supplier', 'party': 'Electroplus', 'paid_to': 'Creditors - ITU', 'paid_to_account_currency': 'EUR', 'paid_amount': '10.0', 'received_amount': '10.0', 'paid_from': 'Creditors - ITU', 'paid_from_account_currency': 'EUR', 'payment_type': 'Pay', 'company': 'ITUniversity', 'references': [{'reference_doctype': 'Purchase Invoice', 'reference_name': 'ACC-PINV-2025-00002', 'total_amount': '10.0', 'outstanding_amount': '10.0', 'allocated_amount': '10.0'}]}
+2025-05-07 14:13:21,612 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doctype': 'Payment Entry', 'payment_type': 'Pay', 'mode_of_payment': 'Cash', 'posting_date': '2025-05-07', 'paid_amount': 10.0, 'received_amount': 10.0, 'reference_no': '', 'reference_date': '2025-05-07', 'party_type': 'Supplier', 'party': 'Electroplus', 'paid_to': 'Creditors - ITU', 'source_exchange_rate': 1.0, 'target_exchange_rate': 1.0, 'paid_from_account_currency': 'EUR', 'paid_to_account_currency': 'EUR', 'paid_from': 'Cash - ITU', 'references': [{'reference_doctype': 'Purchase Invoice', 'reference_name': 'ACC-PINV-2025-00002', 'allocated_amount': 10.0}]}
+2025-05-07 14:13:33,327 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'payment_type': 'Pay', 'mode_of_payment': 'Cash', 'posting_date': '2025-05-07', 'paid_amount': 10.0, 'received_amount': 10.0, 'reference_no': '', 'reference_date': '2025-05-07', 'party_type': 'Supplier', 'party': 'Electroplus', 'paid_to': 'Creditors - ITU', 'source_exchange_rate': 1.0, 'target_exchange_rate': 1.0, 'paid_from_account_currency': 'EUR', 'paid_to_account_currency': 'EUR', 'paid_from': 'Cash - ITU', 'references': [{'reference_doctype': 'Purchase Invoice', 'reference_name': 'ACC-PINV-2025-00002', 'allocated_amount': 10.0}]}
+2025-05-07 14:17:59,953 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'docstatus': 1}
+2025-05-07 14:18:31,991 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'docstatus': 1}

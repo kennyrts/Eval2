@@ -1,0 +1,26 @@
+Voici le body de ma requete {
+    "doctype": "Payment Entry",
+    "payment_type": "Pay",
+    "mode_of_payment": "Cash",
+    "posting_date": "2025-05-07",
+    "paid_amount": 10.0,
+    "received_amount": 10.0,
+    "reference_no": "",
+    "reference_date": "2025-05-07",
+    "party_type": "Supplier",
+    "party": "Electroplus",
+    "paid_to": "Creditors - ITU",
+    "docstatus": 1,
+    "source_exchange_rate": 1.0,
+    "target_exchange_rate": 1.0,
+    "paid_from_account_currency": "EUR",
+    "paid_to_account_currency": "EUR",
+    "paid_from": "Cash - ITU",
+    "references": [
+        {
+            "reference_doctype": "Purchase Invoice",
+            "reference_name": "ACC-PINV-2025-00002",
+            "allocated_amount": 10.0
+        }
+    ]
+} Voici le lien appele POST erpnext.localhost:8000/api/resource/Payment%20Entry. Ou est l'erreur
