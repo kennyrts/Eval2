@@ -128,4 +128,24 @@ public class SupplierController {
         
         return new ResponseEntity<>(pdf, headers, HttpStatus.OK);
     }
+
+    @GetMapping("/suppliers/orders/{orderName}/pdf")
+    public ResponseEntity<byte[]> downloadPurchaseOrderPdf(
+            @PathVariable String orderName,
+            HttpSession session) {
+        log.debug("Téléchargement du PDF pour la commande: {}", orderName);
+        
+        String sessionCookie = (String) session.getAttribute("sid");
+        if (sessionCookie == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        
+        byte[] pdf = supplierService.downloadPurchaseOrderPdf(sessionCookie, orderName);
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDisposition(ContentDisposition.attachment().filename(orderName + ".pdf").build());
+        
+        return new ResponseEntity<>(pdf, headers, HttpStatus.OK);
+    }
 } 
