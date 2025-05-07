@@ -328,7 +328,12 @@ public class SupplierService {
                 String.class
             );
 
-            return response.getStatusCode().is2xxSuccessful();
+            if (response.getStatusCode().is2xxSuccessful()) {
+                // Si la mise à jour des prix réussit, soumettre automatiquement le devis
+                return submitQuotation(sessionCookie, quotationName);
+            }
+
+            return false;
         } catch (Exception e) {
             log.error("Erreur lors de la mise à jour des prix unitaires", e);
             return false;
