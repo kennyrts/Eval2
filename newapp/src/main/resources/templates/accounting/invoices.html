@@ -198,7 +198,7 @@
                                 <td>
                                     <div class="action-buttons">
                                         <button type="button" class="btn btn-sm btn-primary"
-                                                th:if="${invoice.status != 'Paid'}"
+                                                th:if="${invoice.status != 'Paid' && invoice.status != 'Overdue' && invoice.status != 'Draft'}"
                                                 onclick="openPaymentModal(this)"
                                                 th:data-invoice-id="${invoice.name}"
                                                 th:data-supplier="${invoice.supplierName}"
