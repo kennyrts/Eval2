@@ -203,17 +203,22 @@ public class AccountingService {
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.add("Cookie", sessionCookie);
 
-            // Utilisation de l'API directe de soumission d'un document
-            String url = erpUrl + "/api/resource/Payment Entry/" + paymentEntryName + "/submit";
+            // Créer un corps de requête avec docstatus = 1 pour la soumission
+            ObjectNode requestBody = objectMapper.createObjectNode();
+            requestBody.put("docstatus", 1);
             
-            // Requête POST sans corps (le corps n'est pas nécessaire pour cette API)
-            HttpEntity<String> entity = new HttpEntity<>(headers);
+            // Créer l'entité HTTP avec le corps de la requête
+            HttpEntity<String> entity = new HttpEntity<>(objectMapper.writeValueAsString(requestBody), headers);
+            
+            // URL directe pour mettre à jour le document avec PUT
+            String url = erpUrl + "/api/resource/Payment Entry/" + paymentEntryName;
             
             log.debug("Appel de l'API de soumission: {}", url);
             
+            // Utiliser PUT pour mettre à jour le document avec docstatus=1
             ResponseEntity<String> response = restTemplate.exchange(
                 url,
-                HttpMethod.POST,
+                HttpMethod.PUT,
                 entity,
                 String.class
             );

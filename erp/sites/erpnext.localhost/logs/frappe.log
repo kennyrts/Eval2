@@ -232,3 +232,81 @@ Form Dict: {'doc': '{"name":"ACC-PAY-2025-00026","owner":"Administrator","creati
 2025-05-07 22:44:32,497 ERROR frappe New Exception collected in error log
 Site: erpnext.localhost
 Form Dict: {}
+2025-05-07 22:52:28,641 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {}
+2025-05-07 22:53:34,358 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {}
+2025-05-07 22:54:02,511 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {}
+2025-05-07 22:55:15,453 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {}
+2025-05-07 22:56:56,084 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doctype': 'Payment Entry', 'name': 'ACC-PAY-2025-00032'}
+2025-05-07 22:57:02,513 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doctype': 'Payment Entry', 'name': 'ACC-PAY-2025-00032'}
+2025-05-07 22:59:43,119 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doc': {'doctype': 'Payment Entry', 'name': 'ACC-PAY-2025-00032'}, 'cmd': 'frappe.client.submit'}
+2025-05-07 23:04:19,554 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doc': {'doctype': 'Payment Entry', 'name': 'ACC-PAY-2025-00032'}, 'cmd': 'frappe.client.submit'}
+2025-05-07 23:04:40,631 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doc': {'doctype': 'Payment Entry', 'name': 'ACC-PAY-2025-00032'}}
+2025-05-07 23:04:55,356 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {}
+2025-05-07 23:05:10,210 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doc': {'doctype': 'Payment Entry', 'name': 'ACC-PAY-2025-00032'}, 'cmd': 'frappe.client.submit'}
+2025-05-07 23:05:49,716 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doc': {'doctype': 'Payment Entry', 'name': 'ACC-PAY-2025-00032'}, 'cmd': 'frappe.client.submit'}
+2025-05-07 23:09:24,419 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doc': {'doctype': 'Payment Entry', 'name': 'ACC-PAY-2025-00033'}, 'cmd': 'frappe.client.submit'}
+2025-05-07 23:12:38,845 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doc': {'doctype': 'Payment Entry', 'name': 'ACC-PAY-2025-00032'}, 'cmd': 'frappe.desk.form.save.submit_doc'}
+2025-05-07 23:14:02,533 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {}
+2025-05-07 23:14:18,367 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {}
+2025-05-07 23:14:25,100 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {}
+2025-05-07 23:14:56,692 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doctype': 'Payment Entry', 'name': 'ACC-PAY-2025-00033', 'cmd': 'frappe.client.submit'}
+2025-05-07 23:15:25,976 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doc': {'doctype': 'Payment Entry', 'name': 'ACC-PAY-2025-00033'}, 'cmd': 'frappe.client.submit'}
+2025-05-07 23:16:26,555 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doc': {'doctype': 'Payment Entry', 'name': 'ACC-PAY-2025-00033'}, 'cmd': 'frappe.client.submit'}
+2025-05-07 23:16:36,834 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doc': {'doctype': 'Payment Entry', 'name': 'ACC-PAY-2025-00033'}, 'cmd': 'frappe.client.submit'}
+2025-05-07 23:16:40,683 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doc': {'doctype': 'Payment Entry', 'name': 'ACC-PAY-2025-00033'}, 'cmd': 'frappe.client.submit'}
+2025-05-07 23:16:43,278 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doc': {'doctype': 'Payment Entry', 'name': 'ACC-PAY-2025-00033'}, 'cmd': 'frappe.client.submit'}
+2025-05-07 23:16:50,374 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doc': {'doctype': 'Payment Entry', 'name': 'ACC-PAY-2025-00033'}, 'cmd': 'frappe.client.submit'}
+2025-05-07 23:19:17,261 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doc': {'doctype': 'Payment Entry', 'name': 'ACC-PAY-2025-00034'}, 'cmd': 'frappe.client.submit'}
+2025-05-07 23:23:28,109 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'docstatus': '1'}
