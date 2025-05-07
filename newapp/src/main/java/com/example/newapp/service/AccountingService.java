@@ -14,6 +14,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
 @Service
 @Slf4j
@@ -128,32 +129,45 @@ public class AccountingService {
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.add("Cookie", sessionCookie);
     
+            // Construction du corps de la requête avec la structure correcte compatible avec la soumission
             ObjectNode requestBody = objectMapper.createObjectNode();
-            // Ajout des champs exactement comme dans le JSON qui fonctionne
-            requestBody.put("mode_of_payment", "Cash");
+            requestBody.put("doctype", "Payment Entry");
+            requestBody.put("payment_type", "Pay");
             requestBody.put("posting_date", paymentDTO.getPaymentDate());
-            requestBody.put("target_exchange_rate", 1.0);
+            requestBody.put("company", "ITUniversity");
+            requestBody.put("mode_of_payment", paymentDTO.getPaymentMode() != null ? paymentDTO.getPaymentMode() : "Cash");
             requestBody.put("party_type", "Supplier");
             requestBody.put("party", paymentDTO.getSupplier());
+            
+            // Utiliser des comptes corrects
+            requestBody.put("paid_from", "Cash - ITU");
+            requestBody.put("paid_from_account_currency", "EUR");
             requestBody.put("paid_to", "Creditors - ITU");
             requestBody.put("paid_to_account_currency", "EUR");
-            requestBody.put("paid_amount", paymentDTO.getPaymentAmount());
+            
+            // Montants et taux de change
             requestBody.put("received_amount", paymentDTO.getPaymentAmount());
-            requestBody.put("paid_from", "Creditors - ITU");
-            requestBody.put("paid_from_account_currency", "EUR");
-            requestBody.put("payment_type", "Pay");
-            requestBody.put("company", "ITUniversity");
-    
-            // Création du tableau references
+            requestBody.put("paid_amount", paymentDTO.getPaymentAmount());
+            requestBody.put("source_exchange_rate", 1.0);
+            requestBody.put("target_exchange_rate", 1.0);
+            
+            // Référence à la facture
+            ArrayNode referencesArray = objectMapper.createArrayNode();
             ObjectNode reference = objectMapper.createObjectNode();
             reference.put("reference_doctype", "Purchase Invoice");
             reference.put("reference_name", paymentDTO.getInvoiceId());
-            reference.put("total_amount", paymentDTO.getPaymentAmount());
-            reference.put("outstanding_amount", paymentDTO.getPaymentAmount());
             reference.put("allocated_amount", paymentDTO.getPaymentAmount());
+            referencesArray.add(reference);
+            requestBody.set("references", referencesArray);
             
-            requestBody.putArray("references").add(reference);
+            // Enregistrer le numéro de référence (numéro de chèque, etc.) s'il est fourni
+            if (paymentDTO.getReference() != null && !paymentDTO.getReference().isEmpty()) {
+                requestBody.put("reference_no", paymentDTO.getReference());
+                requestBody.put("reference_date", paymentDTO.getPaymentDate());
+            }
     
+            log.debug("Corps de la requête de création de paiement: {}", objectMapper.writeValueAsString(requestBody));
+            
             HttpEntity<String> entity = new HttpEntity<>(objectMapper.writeValueAsString(requestBody), headers);
             String url = erpUrl + "/api/resource/Payment Entry";
     
@@ -164,14 +178,16 @@ public class AccountingService {
                 String.class
             );
     
-            if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
                 JsonNode jsonResponse = objectMapper.readTree(response.getBody());
-                if (jsonResponse.has("data")) {
+                if (jsonResponse.has("data") && jsonResponse.get("data").has("name")) {
                     String paymentEntryName = jsonResponse.get("data").get("name").asText();
+                    log.info("Payment Entry créé avec succès: {}", paymentEntryName);
                     return submitPaymentEntry(sessionCookie, paymentEntryName);
                 }
             }
     
+            log.error("Erreur lors de la création du paiement: {}", response.getStatusCode());
             return false;
         } catch (Exception e) {
             log.error("Erreur lors de la création du paiement", e);
@@ -181,26 +197,35 @@ public class AccountingService {
 
     private boolean submitPaymentEntry(String sessionCookie, String paymentEntryName) {
         try {
+            log.debug("Soumission du Payment Entry: {}", paymentEntryName);
+            
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.add("Cookie", sessionCookie);
 
-            ObjectNode requestBody = objectMapper.createObjectNode();
-            requestBody.put("run_method", "submit");
-
-            HttpEntity<String> entity = new HttpEntity<>(objectMapper.writeValueAsString(requestBody), headers);
+            // Utilisation de l'API directe de soumission d'un document
             String url = erpUrl + "/api/resource/Payment Entry/" + paymentEntryName + "/submit";
-
+            
+            // Requête POST sans corps (le corps n'est pas nécessaire pour cette API)
+            HttpEntity<String> entity = new HttpEntity<>(headers);
+            
+            log.debug("Appel de l'API de soumission: {}", url);
+            
             ResponseEntity<String> response = restTemplate.exchange(
                 url,
                 HttpMethod.POST,
                 entity,
                 String.class
             );
+            
+            log.debug("Réponse de soumission: {}", response.getStatusCode());
+            if (response.getBody() != null) {
+                log.debug("Corps de réponse: {}", response.getBody());
+            }
 
-            return response.getStatusCode() == HttpStatus.OK;
+            return response.getStatusCode().is2xxSuccessful();
         } catch (Exception e) {
-            log.error("Erreur lors de la soumission du paiement {}", paymentEntryName, e);
+            log.error("Erreur lors de la soumission du paiement {}: {}", paymentEntryName, e.getMessage());
             return false;
         }
     }
