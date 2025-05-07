@@ -130,3 +130,33 @@ Form Dict: {'doc': '{"owner":"Administrator","docstatus":0,"idx":0,"naming_serie
 2025-05-07 09:33:59,040 ERROR frappe New Exception collected in error log
 Site: erpnext.localhost
 Form Dict: {'items': [{'item_code': 'boulon', 'rate': 1.0, 'qty': 13.0}]}
+2025-05-07 09:46:03,003 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doctype': 'Payment Entry', 'payment_type': 'Pay', 'mode_of_payment': 'Cash', 'posting_date': '2025-05-07', 'paid_amount': 10.0, 'received_amount': 10.0, 'reference_no': '', 'reference_date': '2025-05-07', 'party_type': 'Supplier', 'party': 'Exxon', 'paid_to': 'Creditors - O', 'docstatus': 1, 'source_exchange_rate': 1.0, 'target_exchange_rate': 1.0, 'paid_from_account_currency': 'EUR', 'paid_to_account_currency': 'EUR', 'paid_from': 'Cash - O', 'references': [{'reference_doctype': 'Purchase Invoice', 'reference_name': 'ACC-PINV-2025-00002', 'allocated_amount': 10.0}]}
+2025-05-07 09:51:11,025 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doctype': 'Payment Entry', 'payment_type': 'Pay', 'mode_of_payment': 'Cash', 'posting_date': '2025-05-07', 'paid_amount': 10.0, 'received_amount': 10.0, 'reference_no': '', 'reference_date': '2025-05-07', 'party_type': 'Supplier', 'party': 'Exxon', 'paid_to': 'Creditors - ITU', 'docstatus': 1, 'source_exchange_rate': 1.0, 'target_exchange_rate': 1.0, 'paid_from_account_currency': 'EUR', 'paid_to_account_currency': 'EUR', 'paid_from': 'Cash - O', 'references': [{'reference_doctype': 'Purchase Invoice', 'reference_name': 'ACC-PINV-2025-00002', 'allocated_amount': 10.0}]}
+2025-05-07 09:54:22,760 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doctype': 'Payment Entry', 'payment_type': 'Pay', 'mode_of_payment': 'Cash', 'posting_date': '2025-05-07', 'paid_amount': 15.0, 'received_amount': 15.0, 'reference_no': '', 'reference_date': '2025-05-07', 'party_type': 'Supplier', 'party': 'Exxon', 'paid_to': 'Creditors - ITU', 'docstatus': 1, 'source_exchange_rate': 1.0, 'target_exchange_rate': 1.0, 'paid_from_account_currency': 'EUR', 'paid_to_account_currency': 'EUR', 'paid_from': 'Cash - O', 'references': [{'reference_doctype': 'Purchase Invoice', 'reference_name': 'ACC-PINV-2025-00002', 'allocated_amount': 15.0}]}
+2025-05-07 09:59:17,566 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doctype': 'Payment Entry', 'payment_type': 'Pay', 'mode_of_payment': 'Cash', 'posting_date': '2025-05-07', 'paid_amount': 16.0, 'received_amount': 16.0, 'reference_no': '', 'reference_date': '2025-05-07', 'party_type': 'Supplier', 'party': 'Exxon', 'paid_to': 'Creditors - ITU', 'docstatus': 1, 'source_exchange_rate': 1.0, 'target_exchange_rate': 1.0, 'paid_from_account_currency': 'EUR', 'paid_to_account_currency': 'EUR', 'paid_from': 'Cash - O', 'references': [{'reference_doctype': 'Purchase Invoice', 'reference_name': 'ACC-PINV-2025-00002', 'allocated_amount': 16.0}]}
+2025-05-07 10:06:16,886 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doctype': 'Payment Entry', 'payment_type': 'Pay', 'mode_of_payment': 'Cash', 'posting_date': '2025-05-07', 'paid_amount': 10.0, 'received_amount': 10.0, 'reference_no': '', 'reference_date': '2025-05-07', 'party_type': 'Supplier', 'party': 'Exxon', 'paid_to': 'Creditors - ITU', 'docstatus': 1, 'source_exchange_rate': 1.0, 'target_exchange_rate': 1.0, 'paid_from_account_currency': 'EUR', 'paid_to_account_currency': 'EUR', 'paid_from': 'Cash - O', 'references': [{'reference_doctype': 'Purchase Invoice', 'reference_name': 'ACC-PINV-2025-00002', 'allocated_amount': 10.0}]}
+2025-05-07 10:09:26,808 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doctype': 'Payment Entry', 'payment_type': 'Pay', 'mode_of_payment': 'Cash', 'posting_date': '2025-05-07', 'paid_amount': 16.0, 'received_amount': 16.0, 'reference_no': '', 'reference_date': '2025-05-07', 'party_type': 'Supplier', 'party': 'Exxon', 'paid_to': 'Creditors - ITU', 'docstatus': 1, 'source_exchange_rate': 1.0, 'target_exchange_rate': 1.0, 'paid_from_account_currency': 'EUR', 'paid_to_account_currency': 'EUR', 'paid_from': 'Cash - ITU', 'references': [{'reference_doctype': 'Purchase Invoice', 'reference_name': 'ACC-PINV-2025-00002', 'allocated_amount': 16.0}]}
+2025-05-07 10:11:56,502 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'fields': ['*'], 'filters': '[["references","reference_name","=","ACC-PINV-2025-00002"]]', 'limit_page_length': 20}
+2025-05-07 10:15:40,754 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doctype': 'Payment Entry', 'payment_type': 'Pay', 'mode_of_payment': 'Cash', 'posting_date': '2025-05-07', 'paid_amount': 10.0, 'received_amount': 10.0, 'reference_no': '', 'reference_date': '2025-05-07', 'party_type': 'Supplier', 'party': 'Sanifer', 'paid_to': 'Creditors - ITU', 'docstatus': 1, 'source_exchange_rate': 1.0, 'target_exchange_rate': 1.0, 'paid_from_account_currency': 'EUR', 'paid_to_account_currency': 'EUR', 'paid_from': 'Cash - ITU', 'references': [{'reference_doctype': 'Purchase Invoice', 'reference_name': 'ACC-PINV-2025-00003', 'allocated_amount': 10.0}]}
+2025-05-07 10:40:07,084 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doctype': 'Payment Entry', 'payment_type': 'Pay', 'mode_of_payment': 'Bank Draft', 'posting_date': '2025-05-07', 'paid_amount': 8.0, 'received_amount': 8.0, 'reference_no': '', 'reference_date': '2025-05-07', 'party_type': 'Supplier', 'party': 'Sanifer', 'paid_to': 'Creditors - ITU', 'docstatus': 1, 'source_exchange_rate': 1.0, 'target_exchange_rate': 1.0, 'paid_from_account_currency': 'EUR', 'paid_to_account_currency': 'EUR', 'paid_from': 'Cash - ITU', 'references': [{'reference_doctype': 'Purchase Invoice', 'reference_name': 'ACC-PINV-2025-00003', 'allocated_amount': 8.0}]}
+2025-05-07 10:40:18,343 ERROR frappe New Exception collected in error log
+Site: erpnext.localhost
+Form Dict: {'doctype': 'Payment Entry', 'payment_type': 'Pay', 'mode_of_payment': 'Cash', 'posting_date': '2025-05-07', 'paid_amount': 10.0, 'received_amount': 10.0, 'reference_no': '', 'reference_date': '2025-05-07', 'party_type': 'Supplier', 'party': 'Exxon', 'paid_to': 'Creditors - ITU', 'docstatus': 1, 'source_exchange_rate': 1.0, 'target_exchange_rate': 1.0, 'paid_from_account_currency': 'EUR', 'paid_to_account_currency': 'EUR', 'paid_from': 'Cash - ITU', 'references': [{'reference_doctype': 'Purchase Invoice', 'reference_name': 'ACC-PINV-2025-00002', 'allocated_amount': 10.0}]}

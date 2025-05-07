@@ -139,7 +139,7 @@ public class AccountingService {
             requestBody.put("reference_date", paymentDTO.getPaymentDate());
             requestBody.put("party_type", "Supplier");
             requestBody.put("party", paymentDTO.getSupplier());
-            requestBody.put("paid_to", "Creditors - O");
+            requestBody.put("paid_to", "Creditors - ITU");
             requestBody.put("docstatus", 1);
             
             // Ajout des taux de change
@@ -147,7 +147,7 @@ public class AccountingService {
             requestBody.put("target_exchange_rate", 1.0);
             requestBody.put("paid_from_account_currency", "EUR");
             requestBody.put("paid_to_account_currency", "EUR");
-            requestBody.put("paid_from", "Cash - O");
+            requestBody.put("paid_from", "Cash - ITU");
 
             // Références aux factures
             ObjectNode references = objectMapper.createObjectNode();
