@@ -14,6 +14,8 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -373,5 +375,30 @@ public class SupplierService {
             log.error("Erreur lors de la récupération des commandes", e);
             return new ArrayList<>();
         }
+    }
+
+    public byte[] downloadQuotationPdf(String sessionCookie, String quotationName) {
+        String url = erpUrl + "/api/method/frappe.utils.print_format.download_pdf";
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Cookie", sessionCookie);
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("doctype", "Supplier Quotation");
+        map.add("name", quotationName);
+        map.add("format", "Standard");
+        map.add("no_letterhead", "0");
+        
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+        
+        ResponseEntity<byte[]> response = restTemplate.exchange(
+            url,
+            HttpMethod.POST,
+            request,
+            byte[].class
+        );
+        
+        return response.getBody();
     }
 } 

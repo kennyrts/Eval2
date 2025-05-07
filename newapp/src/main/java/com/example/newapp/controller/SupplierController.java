@@ -1,6 +1,10 @@
 package com.example.newapp.controller;
 
 import com.example.newapp.service.SupplierService;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import lombok.extern.slf4j.Slf4j;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.http.ContentDisposition;
 
 @Controller
 @Slf4j
@@ -102,5 +107,25 @@ public class SupplierController {
         }
         
         return "redirect:/suppliers/quotations/" + quotationName;
+    }
+
+    @GetMapping("/suppliers/quotations/{quotationName}/pdf")
+    public ResponseEntity<byte[]> downloadQuotationPdf(
+            @PathVariable String quotationName,
+            HttpSession session) {
+        log.debug("Téléchargement du PDF pour le devis: {}", quotationName);
+        
+        String sessionCookie = (String) session.getAttribute("sid");
+        if (sessionCookie == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        
+        byte[] pdf = supplierService.downloadQuotationPdf(sessionCookie, quotationName);
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDisposition(ContentDisposition.attachment().filename(quotationName + ".pdf").build());
+        
+        return new ResponseEntity<>(pdf, headers, HttpStatus.OK);
     }
 } 
