@@ -224,21 +224,20 @@ public class SupplierService {
                 return false;
             }
 
-            // D'abord, récupérer les détails actuels du devis pour avoir la quantité
+            // D'abord, récupérer les détails actuels du devis pour avoir la quantité et l'entrepôt
             SupplierQuotationDTO quotation = getQuotationDetails(sessionCookie, quotationName);
             if (quotation == null || quotation.getItems() == null) {
                 log.error("Impossible de récupérer les détails du devis");
                 return false;
             }
 
-            // Trouver l'item correspondant pour obtenir sa quantité
-            Double qty = quotation.getItems().stream()
+            // Trouver l'item correspondant pour obtenir sa quantité et son entrepôt
+            SupplierQuotationItemDTO matchingItem = quotation.getItems().stream()
                 .filter(item -> itemCode.equals(item.getItemCode()))
                 .findFirst()
-                .map(SupplierQuotationItemDTO::getQty)
                 .orElse(null);
 
-            if (qty == null) {
+            if (matchingItem == null) {
                 log.error("Item {} non trouvé dans le devis {}", itemCode, quotationName);
                 return false;
             }
@@ -253,7 +252,16 @@ public class SupplierService {
             ObjectNode itemNode = objectMapper.createObjectNode();
             itemNode.put("item_code", itemCode);
             itemNode.put("rate", newRate);
-            itemNode.put("qty", qty);  // Inclure la quantité existante
+            itemNode.put("qty", matchingItem.getQty());
+            
+            // Ajouter l'entrepôt s'il existe
+            if (matchingItem.getWarehouse() != null && !matchingItem.getWarehouse().isEmpty()) {
+                itemNode.put("warehouse", matchingItem.getWarehouse());
+            } else {
+                // Utiliser un entrepôt par défaut si nécessaire
+                itemNode.put("warehouse", "Stores - ITU");
+            }
+            
             itemsArray.add(itemNode);
             requestBody.set("items", itemsArray);
 
