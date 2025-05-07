@@ -14,3 +14,19 @@
 		"Helvetica Neue", sans-serif
 2025-05-06 21:48:49,862 WARNING cssutils Property: Unknown Property name. [114:2: -webkit-print-color-adjust]
 2025-05-06 21:48:49,906 WARNING cssutils Property: Unknown Property name. [166:2: word-break]
+2025-05-08 00:25:57,913 ERROR cssutils Property: Invalid value for "CSS Level 2.1" property: var(--gray-900) [14:3: color]
+2025-05-08 00:25:58,085 WARNING cssutils Property: Unknown Property name. [64:2: word-wrap]
+2025-05-08 00:25:58,113 WARNING cssutils Property: Unknown Property name. [83:2: columns]
+2025-05-08 00:25:58,122 WARNING cssutils Property: Unknown Property name. [90:2: background-size]
+2025-05-08 00:25:58,135 WARNING cssutils Property: Unknown Property name. [98:2: object-fit]
+2025-05-08 00:25:58,143 ERROR cssutils Invalid token: ('INVALID', '",', 110, 63)
+2025-05-08 00:25:58,146 ERROR cssutils PropertyValue: Unknown syntax or no value:  
+	"InterVariable", "Inter", -apple-system", "BlinkMacSystemFont",
+		"Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+		"Helvetica Neue", sans-serif
+2025-05-08 00:25:58,149 ERROR cssutils CSSStyleDeclaration: Syntax Error in Property: font-family: 
+	"InterVariable", "Inter", -apple-system", "BlinkMacSystemFont",
+		"Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+		"Helvetica Neue", sans-serif
+2025-05-08 00:25:58,155 WARNING cssutils Property: Unknown Property name. [114:2: -webkit-print-color-adjust]
+2025-05-08 00:25:58,195 WARNING cssutils Property: Unknown Property name. [166:2: word-break]

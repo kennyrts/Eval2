@@ -236,6 +236,7 @@
                                                class="form-control form-control-sm price-input"
                                                step="0.01"
                                                onchange="updateAmount(this)"
+                                               th:readonly="${quotation.status != 'Draft'}"
                                                required>
                                     </td>
                                     <td>
