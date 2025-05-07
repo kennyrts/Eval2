@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Calendar</title>
+    
+    <!-- FullCalendar et dépendances -->
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css' rel='stylesheet' />
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/locale/fr.js'></script>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            margin: 20px;
+        }
+        #calendar {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .document-type-filter {
+            margin-bottom: 20px;
+        }
+        .fc-event {
+            cursor: pointer;
+            border: none;
+            border-radius: 3px;
+            padding: 2px;
+            margin: 1px;
+        }
+        .fc-time-grid-event {
+            border-radius: 3px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+        }
+        .fc-time-grid-event .fc-time {
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        .fc-widget-header {
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col">
+                <h2 class="text-center">Purchase Calendar</h2>
+            </div>
+        </div>
+        
+        <div class="row document-type-filter">
+            <div class="col-md-4">
+                <select id="documentTypeFilter" class="form-select">
+                    <option value="All">All Documents</option>
+                    <option value="Material Request">Material Request</option>
+                    <option value="Request for Quotation">Request for Quotation</option>
+                    <option value="Supplier Quotation">Supplier Quotation</option>
+                    <option value="Purchase Order">Purchase Order</option>
+                    <option value="Purchase Invoice">Purchase Invoice</option>
+                    <option value="Payment Entry">Payment Entry</option>
+                    <option value="Purchase Receipt">Purchase Receipt</option>
+                </select>
+            </div>
+        </div>
+        
+        <div id="calendar"></div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            var calendar = $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                defaultView: 'month',
+                height: 'auto',
+                events: function(start, end, timezone, callback) {
+                    var documentType = $('#documentTypeFilter').val();
+                    $.ajax({
+                        url: '/calendar/api/events',
+                        data: {
+                            start: start.format('YYYY-MM-DD'),
+                            end: end.format('YYYY-MM-DD'),
+                            documentType: documentType
+                        },
+                        success: function(events) {
+                            events = events.map(function(event) {
+                                event.backgroundColor = getEventColor(event.doctype);
+                                return event;
+                            });
+                            callback(events);
+                        }
+                    });
+                },
+                eventClick: function(event) {
+                    alert(
+                        'Document: ' + event.title + '\n' +
+                        'Type: ' + event.doctype + '\n' +
+                        'Status: ' + event.status + '\n' +
+                        'Created: ' + event.created + '\n' +
+                        'Last Modified: ' + event.lastModified
+                    );
+                },
+                eventRender: function(event, element) {
+                    element.css('font-size', '0.9em');
+                    element.find('.fc-time').css('font-weight', 'bold');
+                    element.find('.fc-title').css('padding', '2px');
+                }
+            });
+            
+            $('#documentTypeFilter').change(function() {
+                calendar.fullCalendar('refetchEvents');
+            });
+            
+            function getEventColor(doctype) {
+                var colors = {
+                    'Material Request': '#7575ff',
+                    'Request for Quotation': '#ffa00a',
+                    'Supplier Quotation': '#ffb1b1',
+                    'Purchase Order': '#ffd343',
+                    'Purchase Invoice': '#98d85b',
+                    'Payment Entry': '#ff7846',
+                    'Purchase Receipt': '#7cd6fd'
+                };
+                return colors[doctype] || '#808080';
+            }
+        });
+    </script>
+</body>
+</html> 
