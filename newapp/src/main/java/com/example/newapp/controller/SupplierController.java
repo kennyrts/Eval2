@@ -1,21 +1,21 @@
 package com.example.newapp.controller;
 
 import com.example.newapp.service.SupplierService;
+import com.example.newapp.dto.SupplierQuotationItemDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import lombok.extern.slf4j.Slf4j;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ContentDisposition;
+
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -147,5 +147,52 @@ public class SupplierController {
         headers.setContentDisposition(ContentDisposition.attachment().filename(orderName + ".pdf").build());
         
         return new ResponseEntity<>(pdf, headers, HttpStatus.OK);
+    }
+
+    @PostMapping("/suppliers/quotations/{quotationName}/items")
+    @ResponseBody
+    public ResponseEntity<String> updateQuotationItems(
+            @PathVariable String quotationName,
+            @RequestBody List<SupplierQuotationItemDTO> items,
+            HttpSession session) {
+        
+        log.debug("Mise à jour des items pour le devis {}", quotationName);
+        
+        String sessionCookie = (String) session.getAttribute("sid");
+        if (sessionCookie == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Session expirée");
+        }
+        
+        boolean success = supplierService.updateQuotationItems(sessionCookie, quotationName, items);
+        
+        if (success) {
+            return ResponseEntity.ok("Prix mis à jour avec succès");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Erreur lors de la mise à jour des prix");
+        }
+    }
+
+    @PostMapping("/suppliers/quotations/{quotationName}/submit")
+    @ResponseBody
+    public ResponseEntity<String> submitQuotation(
+            @PathVariable String quotationName,
+            HttpSession session) {
+        
+        log.debug("Soumission du devis {}", quotationName);
+        
+        String sessionCookie = (String) session.getAttribute("sid");
+        if (sessionCookie == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Session expirée");
+        }
+        
+        boolean success = supplierService.submitQuotation(sessionCookie, quotationName);
+        
+        if (success) {
+            return ResponseEntity.ok("Devis soumis avec succès");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Erreur lors de la soumission du devis");
+        }
     }
 } 

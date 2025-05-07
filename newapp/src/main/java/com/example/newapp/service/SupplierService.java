@@ -287,7 +287,55 @@ public class SupplierService {
         }
     }
 
-    private boolean submitQuotation(String sessionCookie, String quotationName) {
+    public boolean updateQuotationItems(String sessionCookie, String quotationName, List<SupplierQuotationItemDTO> items) {
+        try {
+            if (sessionCookie == null) {
+                log.error("Cookie de session manquant");
+                return false;
+            }
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.add("Cookie", sessionCookie);
+
+            // Construire le corps de la requête
+            ObjectNode requestBody = objectMapper.createObjectNode();
+            ArrayNode itemsArray = objectMapper.createArrayNode();
+
+            for (SupplierQuotationItemDTO item : items) {
+                ObjectNode itemNode = objectMapper.createObjectNode();
+                itemNode.put("item_code", item.getItemCode());
+                itemNode.put("rate", item.getRate());
+                itemNode.put("qty", item.getQty());
+                
+                if (item.getWarehouse() != null && !item.getWarehouse().isEmpty()) {
+                    itemNode.put("warehouse", item.getWarehouse());
+                } else {
+                    itemNode.put("warehouse", "Stores - ITU");
+                }
+                
+                itemsArray.add(itemNode);
+            }
+            requestBody.set("items", itemsArray);
+
+            HttpEntity<String> entity = new HttpEntity<>(objectMapper.writeValueAsString(requestBody), headers);
+
+            // Mise à jour des prix
+            ResponseEntity<String> response = restTemplate.exchange(
+                erpUrl + "/api/resource/Supplier Quotation/" + quotationName,
+                HttpMethod.PUT,
+                entity,
+                String.class
+            );
+
+            return response.getStatusCode().is2xxSuccessful();
+        } catch (Exception e) {
+            log.error("Erreur lors de la mise à jour des prix unitaires", e);
+            return false;
+        }
+    }
+
+    public boolean submitQuotation(String sessionCookie, String quotationName) {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);

@@ -3,6 +3,15 @@
 <head>
     <title>Détails du Devis - NewApp</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .price-input {
+            width: 120px;
+        }
+        .amount-display {
+            min-width: 100px;
+            display: inline-block;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -105,50 +114,77 @@
         <div class="card mb-4">
             <div class="card-body">
                 <h5 class="card-title">Articles</h5>
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Code Article</th>
-                                <th>Nom</th>
-                                <th>Description</th>
-                                <th>Quantité</th>
-                                <th>UdM</th>
-                                <th>Prix Unitaire</th>
-                                <th>Montant</th>
-                                <th>Délai (jours)</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="item : ${quotation.items}">
-                                <td th:text="${item.itemCode}">CODE</td>
-                                <td th:text="${item.itemName}">NOM</td>
-                                <td th:text="${item.description}">DESCRIPTION</td>
-                                <td th:text="${item.qty}">QTÉ</td>
-                                <td th:text="${item.uom}">UDM</td>
-                                <td>
-                                    <form th:action="@{/suppliers/quotations/{quotationName}/updateRate(quotationName=${quotation.name})}"
-                                          method="post"
-                                          class="d-flex align-items-center">
+                <form id="quotationForm">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Code Article</th>
+                                    <th>Nom</th>
+                                    <th>Description</th>
+                                    <th>Quantité</th>
+                                    <th>UdM</th>
+                                    <th>Prix Unitaire</th>
+                                    <th>Montant</th>
+                                    <th>Délai (jours)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="item : ${quotation.items}" class="item-row">
+                                    <td>
                                         <input type="hidden" name="itemCode" th:value="${item.itemCode}">
-                                        <input type="number"
-                                               name="newRate"
-                                               th:value="${item.rate}"
-                                               class="form-control form-control-sm me-2"
-                                               step="0.01"
+                                        <span th:text="${item.itemCode}">CODE</span>
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="itemName" th:value="${item.itemName}">
+                                        <span th:text="${item.itemName}">NOM</span>
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="description" th:value="${item.description}">
+                                        <span th:text="${item.description}">DESCRIPTION</span>
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="qty" th:value="${item.qty}">
+                                        <span th:text="${item.qty}">QTÉ</span>
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="uom" th:value="${item.uom}">
+                                        <span th:text="${item.uom}">UDM</span>
+                                    </td>
+                                    <td>
+                                        <input type="number" 
+                                               name="rate" 
+                                               th:value="${item.rate}" 
+                                               class="form-control form-control-sm price-input"
+                                               step="0.01" 
+                                               onchange="updateAmount(this)"
                                                required>
-                                        <button type="submit" class="btn btn-sm btn-primary">
-                                            <i class="bi bi-check"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                                <td th:text="${item.amount}">MONTANT</td>
-                                <td th:text="${item.leadTimeDays}">DÉLAI</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="amount" th:value="${item.amount}">
+                                        <span class="amount-display" th:text="${item.amount}">MONTANT</span>
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="leadTimeDays" th:value="${item.leadTimeDays}">
+                                        <span th:text="${item.leadTimeDays}">DÉLAI</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-end mt-3">
+                        <button type="button" class="btn btn-primary me-2" onclick="updatePrices()">
+                            Mettre à jour les prix
+                        </button>
+                        <button type="button" 
+                                class="btn btn-success" 
+                                onclick="submitQuotation()"
+                                id="submitButton"
+                                disabled>
+                            Soumettre le devis
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -162,5 +198,78 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    
+    <script th:inline="javascript">
+        const quotationName = /*[[${quotation.name}]]*/ '';
+        let pricesUpdated = false;
+
+        function updateAmount(input) {
+            const row = input.closest('tr');
+            const qty = parseFloat(row.querySelector('[name="qty"]').value);
+            const rate = parseFloat(input.value);
+            const amount = qty * rate;
+            row.querySelector('.amount-display').textContent = amount.toFixed(2);
+            row.querySelector('[name="amount"]').value = amount;
+        }
+
+        function updatePrices() {
+            const items = [];
+            document.querySelectorAll('.item-row').forEach(row => {
+                items.push({
+                    itemCode: row.querySelector('[name="itemCode"]').value,
+                    itemName: row.querySelector('[name="itemName"]').value,
+                    description: row.querySelector('[name="description"]').value,
+                    qty: parseFloat(row.querySelector('[name="qty"]').value),
+                    uom: row.querySelector('[name="uom"]').value,
+                    rate: parseFloat(row.querySelector('[name="rate"]').value),
+                    amount: parseFloat(row.querySelector('[name="amount"]').value),
+                    warehouse: row.querySelector('[name="warehouse"]')?.value,
+                    leadTimeDays: parseFloat(row.querySelector('[name="leadTimeDays"]').value)
+                });
+            });
+
+            fetch(`/suppliers/quotations/${quotationName}/items`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(items)
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Erreur lors de la mise à jour');
+                return response.text();
+            })
+            .then(() => {
+                pricesUpdated = true;
+                document.getElementById('submitButton').disabled = false;
+                alert('Prix mis à jour avec succès');
+            })
+            .catch(error => {
+                alert('Erreur: ' + error.message);
+            });
+        }
+
+        function submitQuotation() {
+            if (!pricesUpdated) {
+                alert('Veuillez d\'abord mettre à jour les prix');
+                return;
+            }
+
+            fetch(`/suppliers/quotations/${quotationName}/submit`, {
+                method: 'POST'
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Erreur lors de la soumission');
+                return response.text();
+            })
+            .then(() => {
+                alert('Devis soumis avec succès');
+                window.location.reload();
+            })
+            .catch(error => {
+                alert('Erreur: ' + error.message);
+            });
+        }
+    </script>
 </body>
 </html> 
