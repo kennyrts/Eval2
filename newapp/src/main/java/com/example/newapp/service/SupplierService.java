@@ -426,4 +426,29 @@ public class SupplierService {
         
         return response.getBody();
     }
+
+    public byte[] downloadPurchaseInvoicePdf(String sessionCookie, String invoiceName) {
+        String url = erpUrl + "/api/method/frappe.utils.print_format.download_pdf";
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Cookie", sessionCookie);
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("doctype", "Purchase Invoice");
+        map.add("name", invoiceName);
+        map.add("format", "Standard");
+        map.add("no_letterhead", "0");
+        
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+        
+        ResponseEntity<byte[]> response = restTemplate.exchange(
+            url,
+            HttpMethod.POST,
+            request,
+            byte[].class
+        );
+        
+        return response.getBody();
+    }
 } 

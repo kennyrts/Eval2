@@ -164,3 +164,8 @@
 2025-05-07 00:14:06,855 INFO /home/dell/.venv/bin/bench schedule
 2025-05-07 00:14:07,033 INFO /home/dell/.venv/bin/bench serve --port 8000
 2025-05-07 06:00:11,201 INFO /home/dell/.venv/bin/bench --verbose --site all backup
+2025-05-07 08:13:04,555 INFO /home/dell/.venv/bin/bench start
+2025-05-07 08:13:05,413 INFO /home/dell/.venv/bin/bench schedule
+2025-05-07 08:13:05,417 INFO /home/dell/.venv/bin/bench watch
+2025-05-07 08:13:05,431 INFO /home/dell/.venv/bin/bench serve --port 8000
+2025-05-07 08:13:05,570 INFO /home/dell/.venv/bin/bench worker

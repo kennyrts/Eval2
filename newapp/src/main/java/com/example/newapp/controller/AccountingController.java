@@ -6,8 +6,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.ContentDisposition;
 import lombok.extern.slf4j.Slf4j;
 import jakarta.servlet.http.HttpSession;
 
@@ -45,14 +51,38 @@ public class AccountingController {
             return "redirect:/login";
         }
         
-        boolean success = accountingService.createPaymentEntry(sessionCookie, paymentDTO);
-        
-        if (success) {
-            redirectAttributes.addFlashAttribute("success", "Paiement enregistré avec succès");
-        } else {
-            redirectAttributes.addFlashAttribute("error", "Erreur lors de l'enregistrement du paiement");
+        try {
+            boolean success = accountingService.createPaymentEntry(sessionCookie, paymentDTO);
+            
+            if (success) {
+                redirectAttributes.addFlashAttribute("success", "Paiement enregistré avec succès");
+            } else {
+                redirectAttributes.addFlashAttribute("error", "Erreur lors de l'enregistrement du paiement");
+            }
+        } catch (IllegalStateException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
         
         return "redirect:/accounting/invoices";
+    }
+
+    @GetMapping("/accounting/invoices/{invoiceName}/pdf")
+    public ResponseEntity<byte[]> downloadPurchaseInvoicePdf(
+            @PathVariable String invoiceName,
+            HttpSession session) {
+        log.debug("Téléchargement du PDF pour la facture: {}", invoiceName);
+        
+        String sessionCookie = (String) session.getAttribute("sid");
+        if (sessionCookie == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        
+        byte[] pdf = accountingService.downloadPurchaseInvoicePdf(sessionCookie, invoiceName);
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDisposition(ContentDisposition.attachment().filename(invoiceName + ".pdf").build());
+        
+        return new ResponseEntity<>(pdf, headers, HttpStatus.OK);
     }
 } 

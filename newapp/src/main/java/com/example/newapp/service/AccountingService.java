@@ -10,6 +10,8 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -137,7 +139,7 @@ public class AccountingService {
             requestBody.put("reference_date", paymentDTO.getPaymentDate());
             requestBody.put("party_type", "Supplier");
             requestBody.put("party", paymentDTO.getSupplier());
-            requestBody.put("paid_to", "Creditors - OD");
+            requestBody.put("paid_to", "Creditors - O");
             requestBody.put("docstatus", 1);
             
             // Ajout des taux de change
@@ -145,7 +147,7 @@ public class AccountingService {
             requestBody.put("target_exchange_rate", 1.0);
             requestBody.put("paid_from_account_currency", "EUR");
             requestBody.put("paid_to_account_currency", "EUR");
-            requestBody.put("paid_from", "Cash - OD");
+            requestBody.put("paid_from", "Cash - O");
 
             // Références aux factures
             ObjectNode references = objectMapper.createObjectNode();
@@ -204,5 +206,30 @@ public class AccountingService {
             log.error("Erreur lors de la soumission du paiement {}", paymentEntryName, e);
             return false;
         }
+    }
+
+    public byte[] downloadPurchaseInvoicePdf(String sessionCookie, String invoiceName) {
+        String url = erpUrl + "/api/method/frappe.utils.print_format.download_pdf";
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Cookie", sessionCookie);
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("doctype", "Purchase Invoice");
+        map.add("name", invoiceName);
+        map.add("format", "Standard");
+        map.add("no_letterhead", "0");
+        
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+        
+        ResponseEntity<byte[]> response = restTemplate.exchange(
+            url,
+            HttpMethod.POST,
+            request,
+            byte[].class
+        );
+        
+        return response.getBody();
     }
 } 
