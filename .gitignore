@@ -1,9 +1,17 @@
+# Environment and virtual environment
 /erp/env
-/erp/sites/assets/frappe
-/erp/sites/assets/erpnext
-/erp/sites/assets/frappe
-/erp/logs
-/erp/config/pids
+/erp/venv
+
+# Assets
+/erp/sites/assets/*
+!/erp/sites/assets/assets.json
+!/erp/sites/assets/assets-rtl.json
+
+# Logs and configuration
+/erp/logs/*
+/erp/config/pids/*
+
+# Cache and compiled files
 **/node_modules
 **/dist
 *.bundle.*
@@ -12,3 +20,16 @@
 **/__pycache__
 *.css.map
 *.js.map
+
+# Custom tools assets
+/erp/sites/assets/custom_tools
+/custom_tools/public/**/*.css
+/custom_tools/public/**/*.js
+/erp/apps/erpnext/custom_tools/public/**/*.css
+/erp/apps/erpnext/custom_tools/public/**/*.js
+
+# Redis PID files
+*.pid
+
+# Bench specific files
+/erp/sites/apps.txt

@@ -169,3 +169,16 @@
 2025-05-07 08:13:05,417 INFO /home/dell/.venv/bin/bench watch
 2025-05-07 08:13:05,431 INFO /home/dell/.venv/bin/bench serve --port 8000
 2025-05-07 08:13:05,570 INFO /home/dell/.venv/bin/bench worker
+2025-05-07 09:02:49,078 INFO /home/dell/.venv/bin/bench --site erpnext.localhost install-app custom_tools
+2025-05-07 09:04:04,281 INFO /home/dell/.venv/bin/bench --site erpnext.localhost install-app custom_tools
+2025-05-07 09:04:56,801 INFO /home/dell/.venv/bin/bench build
+2025-05-07 09:07:00,504 INFO /home/dell/.venv/bin/bench start
+2025-05-07 09:07:01,613 INFO /home/dell/.venv/bin/bench watch
+2025-05-07 09:07:01,627 INFO /home/dell/.venv/bin/bench schedule
+2025-05-07 09:07:01,638 INFO /home/dell/.venv/bin/bench serve --port 8000
+2025-05-07 09:07:01,646 INFO /home/dell/.venv/bin/bench worker
+2025-05-07 09:09:09,963 INFO /home/dell/.venv/bin/bench start
+2025-05-07 09:09:11,847 INFO /home/dell/.venv/bin/bench watch
+2025-05-07 09:09:11,888 INFO /home/dell/.venv/bin/bench worker
+2025-05-07 09:09:11,906 INFO /home/dell/.venv/bin/bench serve --port 8000
+2025-05-07 09:09:11,973 INFO /home/dell/.venv/bin/bench schedule

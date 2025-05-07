@@ -214,96 +214,97 @@ frappe.pages['database'].on_page_load = function(wrapper) {
 	page.main.find('#csv-import-form').on('submit', function(e) {
 		e.preventDefault();
 		
-		let form_data = new FormData();
-		
 		// Get files
 		let materialRequestFile = page.main.find('#material-request-file').get(0).files[0];
 		let supplierFile = page.main.find('#supplier-file').get(0).files[0];
 		let quotationFile = page.main.find('#quotation-file').get(0).files[0];
-		
-		// Add files to FormData if they exist
-		if (materialRequestFile) {
-			form_data.append('material_request_file', materialRequestFile);
-		}
-		if (supplierFile) {
-			form_data.append('supplier_file', supplierFile);
-		}
-		if (quotationFile) {
-			form_data.append('quotation_file', quotationFile);
-		}
 		
 		if (!materialRequestFile && !supplierFile && !quotationFile) {
 			frappe.msgprint(__('Veuillez sélectionner au moins un fichier CSV à importer'));
 			return;
 		}
 
-		// Ajouter le csrf_token pour la sécurité
-		form_data.append('csrf_token', frappe.csrf_token);
-
 		// Désactiver le bouton pendant l'import
 		let $importButton = page.main.find('.btn-import-csv');
 		$importButton.prop('disabled', true);
 		$importButton.html('<i class="fa fa-spinner fa-spin"></i> Import en cours...');
 
-		$.ajax({
-			url: '/api/method/erpnext.database.page.database.database.import_csv',
-			type: 'POST',
-			data: form_data,
-			processData: false,
-			contentType: false,
-			headers: {
-				'X-Frappe-CSRF-Token': frappe.csrf_token
-			},
-			success: function(r) {
-				if (!r.exc && r.message) {
-					let message = "Import réussi !";
-					if (r.message.created_items && r.message.created_items.length > 0) {
-						message += "\nÉléments créés :\n" + r.message.created_items.join("\n");
-					}
-					
-					frappe.show_alert({
-						message: message,
-						indicator: 'green'
-					}, 5);
+		// Upload each file individually first
+		Promise.all([
+			uploadFile(materialRequestFile),
+			uploadFile(supplierFile),
+			uploadFile(quotationFile)
+		]).then(([file1_url, file2_url, file3_url]) => {
+			// Call import_three_csv with the file URLs
+			frappe.call({
+				method: 'erpnext.database.page.database.database.import_three_csv',
+				args: {
+					file1_url: file1_url,
+					file2_url: file2_url,
+					file3_url: file3_url
+				},
+				callback: function(r) {
+					$importButton.prop('disabled', false);
+					$importButton.html('<i class="fa fa-upload"></i> Import CSV Files');
 
-					// Réinitialiser les inputs file
-					page.main.find('input[type="file"]').val('').each(function() {
-						$(this).closest('.file-input-wrapper').find('.file-name').text('Aucun fichier sélectionné');
-					});
-				} else {
-					frappe.show_alert({
-						message: "Erreur : Réponse invalide du serveur",
-						indicator: 'red'
-					}, 5);
-				}
-			},
-			error: function(xhr, status, error) {
-				console.error("Erreur détaillée:", xhr.responseText);
-				let errorMessage = "Erreur lors de l'import";
-				
-				try {
-					// Tenter de parser le message d'erreur du serveur
-					const response = JSON.parse(xhr.responseText);
-					if (response._server_messages) {
-						const messages = JSON.parse(response._server_messages);
-						errorMessage += " :\n" + messages.join("\n");
+					if (r.message && r.message.success) {
+						frappe.msgprint({
+							title: __('Success'),
+							indicator: 'green',
+							message: r.message.message + '<br><br>' + r.message.details.join('<br>')
+						});
+					} else {
+						frappe.msgprint({
+							title: __('Error'),
+							indicator: 'red',
+							message: r.message ? r.message.message : __('Import failed')
+						});
 					}
-				} catch (e) {
-					errorMessage += " : " + (xhr.responseJSON ? xhr.responseJSON._server_messages : error);
 				}
-				
-				frappe.show_alert({
-					message: errorMessage,
-					indicator: 'red'
-				}, 5);
-			},
-			complete: function() {
-				// Réactiver le bouton et restaurer son texte
-				$importButton.prop('disabled', false);
-				$importButton.html('<i class="fa fa-upload"></i> Import CSV Files');
-			}
+			});
+		}).catch(error => {
+			$importButton.prop('disabled', false);
+			$importButton.html('<i class="fa fa-upload"></i> Import CSV Files');
+			frappe.msgprint({
+				title: __('Error'),
+				indicator: 'red',
+				message: __('Failed to upload files: ') + error
+			});
 		});
 	});
+
+	// Function to upload a file and return its URL
+	function uploadFile(file) {
+		return new Promise((resolve, reject) => {
+			if (!file) {
+				reject('No file provided');
+				return;
+			}
+
+			let form_data = new FormData();
+			form_data.append('file', file);
+			form_data.append('is_private', 1);
+			form_data.append('csrf_token', frappe.csrf_token);
+
+			$.ajax({
+				url: '/api/method/upload_file',
+				type: 'POST',
+				data: form_data,
+				processData: false,
+				contentType: false,
+				success: function(r) {
+					if (r.message) {
+						resolve(r.message.file_url);
+					} else {
+						reject('File upload failed');
+					}
+				},
+				error: function() {
+					reject('File upload failed');
+				}
+			});
+		});
+	}
 
 	// Handle Reset Database
 	page.main.find('.btn-reset-db').on('click', function() {

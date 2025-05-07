@@ -292,3 +292,11 @@
 2025-05-07 00:08:19,375 ERROR scheduler Skipped queueing frappe.website.doctype.web_page.web_page.check_publish_status because it was found in queue for erpnext.localhost
 2025-05-07 00:08:19,398 ERROR scheduler Skipped queueing erpnext.selling.doctype.quotation.quotation.set_expired_status because it was found in queue for erpnext.localhost
 2025-05-07 00:08:19,535 ERROR scheduler Skipped queueing frappe.desk.notifications.clear_notifications because it was found in queue for erpnext.localhost
+2025-05-07 09:08:01,849 ERROR scheduler Skipped queueing frappe.website.doctype.web_page.web_page.check_publish_status because it was found in queue for erpnext.localhost
+2025-05-07 09:08:01,882 ERROR scheduler Skipped queueing frappe.desk.form.document_follow.send_hourly_updates because it was found in queue for erpnext.localhost
+2025-05-07 09:08:01,946 ERROR scheduler Skipped queueing frappe.website.doctype.personal_data_deletion_request.personal_data_deletion_request.process_data_deletion_request because it was found in queue for erpnext.localhost
+2025-05-07 09:08:01,972 ERROR scheduler Skipped queueing frappe.email.doctype.newsletter.newsletter.send_scheduled_email because it was found in queue for erpnext.localhost
+2025-05-07 09:08:01,997 ERROR scheduler Skipped queueing erpnext.manufacturing.doctype.bom_update_log.bom_update_log.resume_bom_cost_update_jobs because it was found in queue for erpnext.localhost
+2025-05-07 09:08:02,172 ERROR scheduler Skipped queueing erpnext.utilities.doctype.video.video.update_youtube_data because it was found in queue for erpnext.localhost
+2025-05-07 09:16:00,987 ERROR scheduler Skipped queueing frappe.website.doctype.web_page.web_page.check_publish_status because it was found in queue for erpnext.localhost
+2025-05-07 09:20:00,251 ERROR scheduler Skipped queueing frappe.website.doctype.web_page.web_page.check_publish_status because it was found in queue for erpnext.localhost
