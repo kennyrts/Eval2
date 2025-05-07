@@ -5,9 +5,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,28 +28,48 @@ public class CalendarService {
         this.erpAuthService = erpAuthService;
     }
     
-    public List<CalendarEventDTO> getCalendarEvents(LocalDate start, LocalDate end, String documentType) {
-        String url = String.format("%s/api/method/erpnext.calendar.api.get_purchase_calendar_events" +
-                "?start=%s&end=%s&document_type=%s",
-                erpNextUrl, start, end, documentType);
-        
-        var response = restTemplate.getForEntity(url, String.class);
-        List<CalendarEventDTO> events = new ArrayList<>();
-        
+    public List<CalendarEventDTO> getCalendarEvents(String start, String end, String documentType, String sessionCookie) {
         try {
-            JsonNode root = objectMapper.readTree(response.getBody());
-            JsonNode eventsNode = root.path("message").path("events");
+            if (sessionCookie == null) {
+                log.error("Cookie de session manquant");
+                return new ArrayList<>();
+            }
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.add("Cookie", sessionCookie);
+
+            String url = String.format("%s/api/method/erpnext.calendar.api.get_purchase_calendar_events" +
+                    "?start=%s&end=%s&document_type=%s",
+                    erpNextUrl, start, end, documentType);
             
-            if (eventsNode.isArray()) {
-                for (JsonNode eventNode : eventsNode) {
-                    CalendarEventDTO event = objectMapper.treeToValue(eventNode, CalendarEventDTO.class);
-                    events.add(event);
+            HttpEntity<?> entity = new HttpEntity<>(headers);
+            
+            ResponseEntity<String> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                entity,
+                String.class
+            );
+            
+            List<CalendarEventDTO> events = new ArrayList<>();
+            
+            if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+                JsonNode root = objectMapper.readTree(response.getBody());
+                JsonNode eventsNode = root.path("message").path("events");
+                
+                if (eventsNode.isArray()) {
+                    for (JsonNode eventNode : eventsNode) {
+                        CalendarEventDTO event = objectMapper.treeToValue(eventNode, CalendarEventDTO.class);
+                        events.add(event);
+                    }
                 }
             }
+            
+            return events;
         } catch (Exception e) {
-            log.error("Error parsing calendar events", e);
+            log.error("Error fetching calendar events", e);
+            return new ArrayList<>();
         }
-        
-        return events;
     }
 } 
